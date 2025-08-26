@@ -9,7 +9,7 @@ import reducer, {
 import mockedEngine from '../../core/__mocks__/MockedEngine';
 import { RootState } from '../../reducers';
 
-const emptyAction = { type: null };
+const emptyAction = { type: 'UNKNOWN_ACTION' } as never;
 
 const collectibleA1 = { tokenId: '101', address: '0xA' };
 const collectibleA2 = { tokenId: '102', address: '0xA' };

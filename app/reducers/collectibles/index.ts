@@ -9,24 +9,34 @@ import { selectSelectedInternalAccountAddress } from '../../selectors/accountsCo
 import { compareTokenIds } from '../../util/tokens';
 import { createDeepEqualSelector } from '../../selectors/util';
 import { selectEnabledNetworksByNamespace } from '../../selectors/networkEnablementController';
+import {
+  CollectiblesState,
+  CollectiblesAction,
+  CollectiblesActionType,
+  FavoriteCollectible,
+} from './types';
 
-const favoritesSelector = (state) => state.collectibles.favorites;
+export * from './types';
 
-export const isNftFetchingProgressSelector = (state) =>
-  state.collectibles.isNftFetchingProgress;
+const favoritesSelector = (state: { collectibles: CollectiblesState }) =>
+  state.collectibles.favorites;
+
+export const isNftFetchingProgressSelector = (state: {
+  collectibles: CollectiblesState;
+}) => state.collectibles.isNftFetchingProgress;
 
 export const collectibleContractsSelector = createSelector(
   selectSelectedInternalAccountAddress,
   selectChainId,
   selectAllNftContracts,
   (address, chainId, allNftContracts) =>
-    allNftContracts[address]?.[chainId] || [],
+    address ? allNftContracts[address]?.[chainId as `0x${string}`] || [] : [],
 );
 
 export const multichainCollectibleContractsSelector = createSelector(
   selectSelectedInternalAccountAddress,
   selectAllNftContracts,
-  (address, allNftContracts) => allNftContracts[address] || {},
+  (address, allNftContracts) => (address ? allNftContracts[address] || {} : {}),
 );
 
 export const multichainCollectibleContractsByEnabledNetworksSelector =
@@ -35,7 +45,7 @@ export const multichainCollectibleContractsByEnabledNetworksSelector =
     selectAllNftContracts,
     selectEnabledNetworksByNamespace,
     (address, allNftContracts, enabledNetworks) => {
-      const addressContracts = allNftContracts[address];
+      const addressContracts = address ? allNftContracts[address] : undefined;
 
       if (!addressContracts || Object.keys(addressContracts).length === 0) {
         return {};
@@ -52,7 +62,10 @@ export const multichainCollectibleContractsByEnabledNetworksSelector =
       }
 
       const enabledChainIds = Object.keys(enabledNetworksForEip155).filter(
-        (chainId) => enabledNetworksForEip155[chainId],
+        (chainId) =>
+          enabledNetworksForEip155[
+            chainId as keyof typeof enabledNetworksForEip155
+          ],
       );
 
       if (enabledChainIds.length === 0) {
@@ -60,9 +73,9 @@ export const multichainCollectibleContractsByEnabledNetworksSelector =
       }
 
       return enabledChainIds.reduce((acc, chainId) => {
-        acc[chainId] = addressContracts[chainId] || [];
+        acc[chainId] = addressContracts[chainId as `0x${string}`] || [];
         return acc;
-      }, {});
+      }, {} as Record<string, unknown[]>);
     },
   );
 
@@ -70,13 +83,14 @@ export const collectiblesSelector = createDeepEqualSelector(
   selectSelectedInternalAccountAddress,
   selectChainId,
   selectAllNfts,
-  (address, chainId, allNfts) => allNfts[address]?.[chainId] || [],
+  (address, chainId, allNfts) =>
+    address ? allNfts[address]?.[chainId as `0x${string}`] || [] : [],
 );
 
 export const multichainCollectiblesSelector = createDeepEqualSelector(
   selectSelectedInternalAccountAddress,
   selectAllNfts,
-  (address, allNfts) => allNfts[address] || {},
+  (address, allNfts) => (address ? allNfts[address] || {} : {}),
 );
 
 export const multichainCollectiblesByEnabledNetworksSelector =
@@ -85,7 +99,7 @@ export const multichainCollectiblesByEnabledNetworksSelector =
     selectAllNfts,
     selectEnabledNetworksByNamespace,
     (address, allNfts, enabledNetworks) => {
-      const addressNfts = allNfts[address];
+      const addressNfts = address ? allNfts[address] : undefined;
 
       if (!addressNfts || Object.keys(addressNfts).length === 0) {
         return {};
@@ -102,7 +116,10 @@ export const multichainCollectiblesByEnabledNetworksSelector =
       }
 
       const enabledChainIds = Object.keys(enabledNetworksForEip155).filter(
-        (chainId) => enabledNetworksForEip155[chainId],
+        (chainId) =>
+          enabledNetworksForEip155[
+            chainId as keyof typeof enabledNetworksForEip155
+          ],
       );
 
       if (enabledChainIds.length === 0) {
@@ -114,9 +131,9 @@ export const multichainCollectiblesByEnabledNetworksSelector =
       return Object.keys(addressNfts)
         .filter((chainId) => enabledChainIdsSet.has(chainId))
         .reduce((acc, chainId) => {
-          acc[chainId] = addressNfts[chainId];
+          acc[chainId] = addressNfts[chainId as `0x${string}`];
           return acc;
-        }, {});
+        }, {} as Record<string, unknown[]>);
     },
   );
 
@@ -124,16 +141,17 @@ export const favoritesCollectiblesSelector = createSelector(
   selectSelectedInternalAccountAddress,
   selectChainId,
   favoritesSelector,
-  (address, chainId, favorites) => favorites[address]?.[chainId] || [],
+  (address, chainId, favorites) =>
+    address ? favorites[address]?.[chainId] || [] : [],
 );
 
 export const isCollectibleInFavoritesSelector = createSelector(
   favoritesCollectiblesSelector,
-  (state, collectible) => collectible,
+  (_state: unknown, collectible: FavoriteCollectible) => collectible,
   (favoriteCollectibles, collectible) =>
     Boolean(
       favoriteCollectibles.find(
-        ({ tokenId, address }) =>
+        ({ tokenId, address }: FavoriteCollectible) =>
           // TO DO: Remove after moving favorites to controllers.
           compareTokenIds(tokenId, collectible.tokenId) &&
           address === collectible.address,
@@ -142,24 +160,33 @@ export const isCollectibleInFavoritesSelector = createSelector(
 );
 
 const getFavoritesCollectibles = (
-  favoriteCollectibles,
-  selectedAddress,
-  chainId,
-) => favoriteCollectibles[selectedAddress]?.[chainId] || [];
+  favoriteCollectibles: Record<string, Record<string, FavoriteCollectible[]>>,
+  selectedAddress: string,
+  chainId: string,
+): FavoriteCollectible[] =>
+  favoriteCollectibles[selectedAddress]?.[chainId] || [];
 
-export const ADD_FAVORITE_COLLECTIBLE = 'ADD_FAVORITE_COLLECTIBLE';
-export const REMOVE_FAVORITE_COLLECTIBLE = 'REMOVE_FAVORITE_COLLECTIBLE';
-export const SHOW_NFT_FETCHING_LOADER = 'SHOW_NFT_FETCHING_LOADER';
-export const HIDE_NFT_FETCHING_LOADER = 'HIDE_NFT_FETCHING_LOADER';
+export const ADD_FAVORITE_COLLECTIBLE =
+  CollectiblesActionType.ADD_FAVORITE_COLLECTIBLE;
+export const REMOVE_FAVORITE_COLLECTIBLE =
+  CollectiblesActionType.REMOVE_FAVORITE_COLLECTIBLE;
+export const SHOW_NFT_FETCHING_LOADER =
+  CollectiblesActionType.SHOW_NFT_FETCHING_LOADER;
+export const HIDE_NFT_FETCHING_LOADER =
+  CollectiblesActionType.HIDE_NFT_FETCHING_LOADER;
 
-const initialState = {
+const initialState: CollectiblesState = {
   favorites: {},
   isNftFetchingProgress: false,
 };
 
-const collectiblesFavoritesReducer = (state = initialState, action) => {
+/* eslint-disable @typescript-eslint/default-param-last */
+const collectiblesFavoritesReducer = (
+  state: CollectiblesState = initialState,
+  action: CollectiblesAction,
+): CollectiblesState => {
   switch (action.type) {
-    case ADD_FAVORITE_COLLECTIBLE: {
+    case CollectiblesActionType.ADD_FAVORITE_COLLECTIBLE: {
       const { selectedAddress, chainId, collectible } = action;
       const collectibles = getFavoritesCollectibles(
         state.favorites,
@@ -171,7 +198,7 @@ const collectiblesFavoritesReducer = (state = initialState, action) => {
         address: collectible.address,
       });
       const selectedAddressCollectibles =
-        state.favorites[selectedAddress] || [];
+        state.favorites[selectedAddress] || {};
       return {
         ...state,
         favorites: {
@@ -183,7 +210,7 @@ const collectiblesFavoritesReducer = (state = initialState, action) => {
         },
       };
     }
-    case REMOVE_FAVORITE_COLLECTIBLE: {
+    case CollectiblesActionType.REMOVE_FAVORITE_COLLECTIBLE: {
       const { selectedAddress, chainId, collectible } = action;
       const collectibles = getFavoritesCollectibles(
         state.favorites,
@@ -198,7 +225,7 @@ const collectiblesFavoritesReducer = (state = initialState, action) => {
       );
       collectibles.splice(indexToRemove, 1);
       const selectedAddressCollectibles =
-        state.favorites[selectedAddress] || [];
+        state.favorites[selectedAddress] || {};
       return {
         ...state,
         favorites: {
@@ -210,13 +237,13 @@ const collectiblesFavoritesReducer = (state = initialState, action) => {
         },
       };
     }
-    case SHOW_NFT_FETCHING_LOADER: {
+    case CollectiblesActionType.SHOW_NFT_FETCHING_LOADER: {
       return {
         ...state,
         isNftFetchingProgress: true,
       };
     }
-    case HIDE_NFT_FETCHING_LOADER: {
+    case CollectiblesActionType.HIDE_NFT_FETCHING_LOADER: {
       return {
         ...state,
         isNftFetchingProgress: false,
@@ -229,11 +256,11 @@ const collectiblesFavoritesReducer = (state = initialState, action) => {
 };
 
 export const showNftFetchingLoadingIndicator = () => ({
-  type: SHOW_NFT_FETCHING_LOADER,
+  type: CollectiblesActionType.SHOW_NFT_FETCHING_LOADER,
 });
 
 export const hideNftFetchingLoadingIndicator = () => ({
-  type: HIDE_NFT_FETCHING_LOADER,
+  type: CollectiblesActionType.HIDE_NFT_FETCHING_LOADER,
 });
 
 export default collectiblesFavoritesReducer;
