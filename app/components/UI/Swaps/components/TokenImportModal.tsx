@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, SafeAreaView, View } from 'react-native';
 import Modal from 'react-native-modal';
-import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import Icon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../../component-library/components/Icons/Icon';
 import ModalDragger from '../../../Base/ModalDragger';
 import Text from '../../../Base/Text';
 import Alert, { AlertType } from '../../../Base/Alert';
@@ -78,11 +82,10 @@ function TokenImportModal({ isVisible, dismiss, token, onPressImport }) {
           <Alert
             type={AlertType.Error}
             renderIcon={() => (
-              <FAIcon
-                name="info-circle"
-                style={styles.alertIcon}
-                color={colors.error.default}
-                size={15}
+              <Icon
+                name={IconName.Info}
+                size={IconSize.Sm}
+                color={IconColor.Error}
               />
             )}
           >

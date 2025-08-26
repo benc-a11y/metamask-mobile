@@ -22,7 +22,11 @@ import { UR } from '@ngraveio/bc-ur';
 import Alert, { AlertType } from '../../Base/Alert';
 import { MetaMetricsEvents } from '../../../core/Analytics';
 
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import NewIcon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import { useTheme } from '../../../util/theme';
 import { SUPPORTED_UR_TYPE } from '../../../constants/qr';
 import { fontStyles } from '../../../styles/common';
@@ -369,7 +373,11 @@ const ConnectQRHardware = ({ navigation }: IConnectQRHardwareProps) => {
             onPress={navigation.goBack}
             style={styles.navbarRightButton}
           >
-            <MaterialIcon name="close" size={15} style={styles.closeIcon} />
+            <NewIcon
+              name={IconName.Close}
+              size={IconSize.Sm}
+              color={IconColor.Default}
+            />
           </TouchableOpacity>
         </View>
         {accounts.length <= 0 ? (

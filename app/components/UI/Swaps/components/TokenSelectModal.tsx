@@ -13,7 +13,6 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
-import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import Fuse from 'fuse.js';
 import { connect } from 'react-redux';
 import { isValidAddress } from 'ethereumjs-util';
@@ -328,11 +327,10 @@ function TokenSelectModal({
       <TouchableWithoutFeedback>
         <Alert
           renderIcon={() => (
-            <FAIcon
-              name="info-circle"
-              style={styles.footerIcon}
-              color={colors.primary.default}
-              size={15}
+            <Icon
+              name={IconName.Info}
+              size={IconSize.Sm}
+              color={IconColor.Primary}
             />
           )}
         >
@@ -356,7 +354,7 @@ function TokenSelectModal({
         </Alert>
       </TouchableWithoutFeedback>
     ),
-    [explorer.isValid, explorer.name, handleBlockExplorerPress, styles, colors],
+    [explorer.isValid, explorer.name, handleBlockExplorerPress],
   );
 
   const renderEmptyList = useMemo(

@@ -11,7 +11,11 @@ import {
 import PropTypes from 'prop-types';
 import { fontStyles } from '../../../styles/common';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import NewIcon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import { strings } from '../../../../locales/i18n';
 import Device from '../../../util/device';
 import { ScreenshotDeterrent } from '../../UI/ScreenshotDeterrent';
@@ -127,7 +131,11 @@ class ImportPrivateKeySuccess extends PureComponent {
               style={styles.navbarRightButton}
               testID={SuccessImportAccountIDs.CLOSE_BUTTON}
             >
-              <MaterialIcon name="close" size={15} style={styles.closeIcon} />
+              <NewIcon
+                name={IconName.Close}
+                size={IconSize.Sm}
+                color={IconColor.Default}
+              />
             </TouchableOpacity>
             <View style={styles.top}>
               <Icon

@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon, {
+  IconName,
+  IconSize,
+} from '../../../../component-library/components/Icons/Icon';
 import Alert, { AlertType } from '../../../Base/Alert';
 import Text from '../../../Base/Text';
 import { useTheme } from '../../../../util/theme';
@@ -133,10 +136,10 @@ function ActionAlert({ type, style, action, onInfoPress, onPress, children }) {
               hitSlop={{ top: 15, right: 15, bottom: 15, left: 15 }}
               onPress={onInfoPress}
             >
-              <MaterialIcon
-                name="info"
-                size={16}
-                style={getInfoIconStyle(type, styles)}
+              <Icon
+                name={IconName.Info}
+                size={IconSize.Sm}
+                color={getInfoIconStyle(type, styles).color}
               />
             </TouchableOpacity>
           )}

@@ -33,7 +33,11 @@ import ledgerConnectLightImage from '../../../images/ledger-connect-light.png';
 import ledgerConnectDarkImage from '../../../images/ledger-connect-dark.png';
 import { getSystemVersion } from 'react-native-device-info';
 import { LedgerCommunicationErrors } from '../../../core/Ledger/ledgerErrors';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import NewIcon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import createStyles from './index.styles';
 import {
   BluetoothDevice,
@@ -218,7 +222,11 @@ const LedgerConnect = ({
             onPress={navigation.goBack}
             style={styles.navbarRightButton}
           >
-            <MaterialIcon name="close" size={15} style={styles.closeIcon} />
+            <NewIcon
+              name={IconName.Close}
+              size={IconSize.Sm}
+              color={IconColor.Default}
+            />
           </TouchableOpacity>
         </View>
         <Text bold style={styles.connectLedgerText}>

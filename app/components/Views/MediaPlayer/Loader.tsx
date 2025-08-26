@@ -6,7 +6,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Text from '../../Base/Text';
-import FA5Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import { strings } from '../../../../locales/i18n';
 import { useTheme } from '../../../util/theme';
@@ -68,7 +72,11 @@ function Loader({
       <View style={styles.content}>
         <View style={styles.item}>
           {error ? (
-            <FA5Icon name="video-slash" color={colors.icon.default} size={40} />
+            <Icon
+              name={IconName.Error}
+              color={IconColor.Default}
+              size={IconSize.XXL}
+            />
           ) : (
             <ActivityIndicator color={colors.icon.default} size="large" />
           )}
