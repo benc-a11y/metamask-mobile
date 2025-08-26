@@ -1,20 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import FA5Icon from 'react-native-vector-icons/FontAwesome5';
+import { TouchableOpacity } from 'react-native';
+import Icon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../../component-library/components/Icons/Icon';
 import { useRatio } from '../utils';
 import Text from '../../../Base/Text';
-import { useTheme } from '../../../../util/theme';
 import BigNumber from 'bignumber.js';
-import { Theme } from '@metamask/design-tokens';
-
-const createStyles = (colors: Theme['colors']) =>
-  StyleSheet.create({
-    infoIcon: {
-      fontSize: 12,
-      margin: 3,
-      color: colors.primary.default,
-    },
-  });
 
 interface TokenInfo {
   symbol: string;
@@ -38,8 +31,6 @@ function Ratio({
 }: RatioProps) {
   /* Get the ratio between the assets given the selected quote*/
   const [ratioAsSource, setRatioAsSource] = useState<boolean>(true);
-  const { colors } = useTheme();
-  const styles = createStyles(colors);
 
   const [numerator, denominator] = useMemo(() => {
     const source = { ...sourceToken, amount: sourceAmount };
@@ -75,7 +66,11 @@ function Ratio({
         <Text reset bold={boldSymbol}>
           {numerator?.symbol}
         </Text>{' '}
-        <FA5Icon name="sync" style={styles.infoIcon} />
+        <Icon
+          name={IconName.Refresh}
+          size={IconSize.Sm}
+          color={IconColor.Primary}
+        />
       </Text>
     </TouchableOpacity>
   );

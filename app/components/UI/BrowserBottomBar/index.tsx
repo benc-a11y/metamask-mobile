@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import ElevatedView from 'react-native-elevated-view';
 import TabCountIcon from '../Tabs/TabCountIcon';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import NewIcon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FeatherIcons from 'react-native-vector-icons/Feather';
 import { MetaMetricsEvents } from '../../../core/Analytics';
@@ -218,10 +222,11 @@ class BrowserBottomBar extends PureComponent {
           testID={BrowserViewSelectorsIDs.OPTIONS_BUTTON}
           disabled={optionsDisabled}
         >
-          <MaterialIcon
-            name="more-horiz"
-            size={22}
-            style={[styles.icon, optionsDisabled && styles.disabledIcon]}
+          <NewIcon
+            name={IconName.MoreHorizontal}
+            size={IconSize.Lg}
+            color={optionsDisabled ? IconColor.Muted : IconColor.Default}
+            style={styles.icon}
           />
         </TouchableOpacity>
       </ElevatedView>

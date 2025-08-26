@@ -25,7 +25,11 @@ import { KeyringController } from '@metamask/keyring-controller';
 import { StackNavigationProp } from '@react-navigation/stack';
 import createStyles from './index.styles';
 import { HardwareDeviceTypes } from '../../../constants/keyringTypes';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import NewIcon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import PAGINATION_OPERATIONS from '../../../constants/pagination';
 import { Device as LedgerDevice } from '@ledgerhq/react-native-hw-transport-ble/lib/types';
 import useLedgerBluetooth from '../../hooks/Ledger/useLedgerBluetooth';
@@ -331,7 +335,11 @@ const LedgerSelectAccount = () => {
             onPress={navigation.goBack}
             style={styles.navbarRightButton}
           >
-            <MaterialIcon name="close" size={15} style={styles.closeIcon} />
+            <NewIcon
+              name={IconName.Close}
+              size={IconSize.Sm}
+              color={IconColor.Default}
+            />
           </TouchableOpacity>
         </View>
         <View style-={styles.selectorContainer}>

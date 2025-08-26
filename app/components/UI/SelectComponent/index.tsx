@@ -8,7 +8,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { fontStyles, baseStyles } from '../../../styles/common';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import Modal from 'react-native-modal';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 import IconCheck from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -106,7 +110,7 @@ export default class SelectComponent extends PureComponent {
      */
     selectedValue: PropTypes.string,
     /**
-     *  Available options
+     * Available options
      */
     options: PropTypes.array,
     /**
@@ -143,9 +147,7 @@ export default class SelectComponent extends PureComponent {
       this.props.options.forEach((item, i) => {
         if (item.value === this.props.selectedValue) {
           setTimeout(() => {
-            this.scrollView &&
-              this.scrollView.current &&
-              this.scrollView.current.scrollTo({
+            this.scrollView?.current?.scrollTo({
                 x: 0,
                 y: i * ROW_HEIGHT,
                 animated: true,
@@ -157,7 +159,7 @@ export default class SelectComponent extends PureComponent {
 
   getSelectedValue = () => {
     const { options, selectedValue, defaultValue } = this.props;
-    const el = options && options.filter((o) => o.value === selectedValue);
+    const el = options?.filter((o) => o.value === selectedValue);
     if (el.length && el[0].label) {
       return el[0].label;
     }
@@ -179,9 +181,9 @@ export default class SelectComponent extends PureComponent {
               {this.getSelectedValue()}
             </Text>
             <Icon
-              name={'arrow-drop-down'}
-              size={24}
-              color={colors.icon.default}
+              name={IconName.ArrowDropDownCircle}
+              size={IconSize.Lg}
+              color={IconColor.Default}
               style={styles.iconDropdown}
             />
           </View>

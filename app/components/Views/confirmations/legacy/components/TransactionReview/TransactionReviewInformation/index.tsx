@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../../../../component-library/components/Icons/Icon';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -257,36 +261,41 @@ class TransactionReviewInformation extends PureComponent {
   };
 
   setNetworkNonce = async () => {
-    const { networkClientId, setNonce, setProposedNonce, transaction } =
-      this.props;
+    const {
+      networkClientId,
+      setNonce: propSetNonce,
+      setProposedNonce: propSetProposedNonce,
+      transaction,
+    } = this.props;
     const proposedNonce = await getNetworkNonce(transaction, networkClientId);
-    setNonce(proposedNonce);
-    setProposedNonce(proposedNonce);
+    propSetNonce(proposedNonce);
+    propSetProposedNonce(proposedNonce);
   };
 
   toggleNonceModal = () =>
     this.setState((state) => ({ nonceModalVisible: !state.nonceModalVisible }));
 
   renderCustomNonceModal = () => {
-    const { setNonce } = this.props;
+    const { setNonce: propSetNonce } = this.props;
     const { proposedNonce, nonce } = this.props.transaction;
     return (
       <CustomNonceModal
         proposedNonce={proposedNonce}
         nonceValue={nonce}
         close={this.toggleNonceModal}
-        save={setNonce}
+        save={propSetNonce}
+        open={this.state.nonceModalVisible}
       />
     );
   };
 
   getTotalFiat = (
-    asset,
-    totalGas,
-    conversionRate,
-    exchangeRate,
-    currentCurrency,
-    amountToken,
+    _asset: unknown,
+    totalGas: string,
+    conversionRate: number,
+    exchangeRate: number,
+    currentCurrency: string,
+    amountToken: string,
   ) => {
     let total = 0;
     const gasFeeFiat = weiToFiatNumber(totalGas, conversionRate);
@@ -319,7 +328,7 @@ class TransactionReviewInformation extends PureComponent {
 
   edit = () => {
     const { edit } = this.props;
-    edit && edit();
+    edit?.();
   };
 
   getRenderTotals = (totalGas, totalGasFiat) => {
@@ -540,7 +549,7 @@ class TransactionReviewInformation extends PureComponent {
 
   onCancelPress = () => {
     const { onCancelPress } = this.props;
-    onCancelPress && onCancelPress();
+    onCancelPress?.();
   };
 
   goToFaucet = () => {
@@ -699,10 +708,10 @@ class TransactionReviewInformation extends PureComponent {
         )}
         {!!amountError && (
           <View style={styles.overviewAlert}>
-            <MaterialIcon
-              name={'error'}
-              size={20}
-              style={styles.overviewAlertIcon}
+            <Icon
+              name={IconName.Danger}
+              size={IconSize.Md}
+              color={IconColor.Error}
             />
             <Text style={styles.overviewAlertText}>
               {strings('transaction.alert')}: {amountError}.

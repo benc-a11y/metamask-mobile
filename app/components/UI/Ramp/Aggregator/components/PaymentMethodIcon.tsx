@@ -8,15 +8,17 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import EvilIconsIcon from 'react-native-vector-icons/EvilIcons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import NewIcon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../../../component-library/components/Icons/Icon';
 // import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import MaterialsIconsIcon from 'react-native-vector-icons/MaterialIcons';
 import MaterialsCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import SimpleLineIconsIcon from 'react-native-vector-icons/SimpleLineIcons';
-import ZocialIcon from 'react-native-vector-icons/Zocial';
 
 interface iconParams {
   paymentMethodIcons?: Payment['icons'];
@@ -52,7 +54,7 @@ function getIconComponent(icon: PaymentIcon) {
       return FontAwesomeIcon;
     }
     case PaymentIconType.FontAwesome5: {
-      return FontAwesome5Icon;
+      return NewIcon;
     }
     case PaymentIconType.Fontisto: {
       return null;
@@ -64,7 +66,7 @@ function getIconComponent(icon: PaymentIcon) {
       return IoniconsIcon;
     }
     case PaymentIconType.MaterialIcons: {
-      return MaterialsIconsIcon;
+      return NewIcon;
     }
     case PaymentIconType.MaterialCommunityIcons: {
       return MaterialsCommunityIconsIcon;
@@ -76,7 +78,7 @@ function getIconComponent(icon: PaymentIcon) {
       return SimpleLineIconsIcon;
     }
     case PaymentIconType.Zocial: {
-      return ZocialIcon;
+      return NewIcon;
     }
     default: {
       return null;
@@ -132,7 +134,13 @@ const PaymentMethodIcon = ({
         return <MaterialsCommunityIconsIcon name={Icon.Bank} {...props} />;
       }
       case PaymentType.DebitCreditCard: {
-        return <MaterialsIconsIcon name={Icon.Card} {...props} />;
+        return (
+          <NewIcon
+            name={IconName.Card}
+            size={IconSize.Md}
+            color={IconColor.Default}
+          />
+        );
       }
       case PaymentType.Wallet:
       default: {

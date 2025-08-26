@@ -1,7 +1,11 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { baseStyles } from '../../../styles/common';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon, {
+  IconName,
+  IconSize,
+  IconColor,
+} from '../../../component-library/components/Icons/Icon';
 import { useTheme } from '../../../util/theme';
 import createStyles from './styles';
 import { ISelectOptionSheet } from './types';
@@ -50,9 +54,9 @@ const SelectOptionSheet = ({
             {renderDisplayValue()}
           </Text>
           <Icon
-            name={'arrow-drop-down'}
-            size={24}
-            color={colors.icon.default}
+            name={IconName.ArrowDropDownCircle}
+            size={IconSize.Lg}
+            color={IconColor.Default}
             style={styles.iconDropdown}
           />
         </View>

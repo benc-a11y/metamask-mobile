@@ -19,7 +19,10 @@ import {
   TouchableNativeFeedback,
   TouchableHighlight,
 } from 'react-native';
-import FA5Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon, {
+  IconName,
+  IconSize,
+} from '../../../component-library/components/Icons/Icon';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import { baseStyles, colors as importedColors } from '../../../styles/common';
 import { useTheme } from '../../../util/theme';
@@ -330,7 +333,7 @@ export default function VideoPlayer({
     }
   };
 
-  const onSeek = (data = {}) => {
+  const onSeek = (_data = {}) => {
     if (scrubbing) {
       if (!seeking) {
         setPaused(originallyPaused);
@@ -360,15 +363,15 @@ export default function VideoPlayer({
     () =>
       PanResponder.create({
         // Ask to be the responder.
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
-        onMoveShouldSetPanResponder: (evt, gestureState) => true,
+        onStartShouldSetPanResponder: (_evt, _gestureState) => true,
+        onMoveShouldSetPanResponder: (_evt, _gestureState) => true,
 
         /**
          * When we start the pan tell the machine that we're
          * seeking. This stops it from updating the seekbar
          * position in the onProgress listener.
          */
-        onPanResponderGrant: (evt, gestureState) => {
+        onPanResponderGrant: (evt, _gestureState) => {
           const position = evt.nativeEvent.locationX;
           updateSeekerPosition(position);
           setPaused(false);
@@ -380,7 +383,7 @@ export default function VideoPlayer({
         /**
          * When panning, update the seekbar position, duh.
          */
-        onPanResponderMove: (evt, gestureState) => {
+        onPanResponderMove: (_evt, gestureState) => {
           const position = seekerOffset + gestureState.dx;
           updateSeekerPosition(position);
 
@@ -399,7 +402,7 @@ export default function VideoPlayer({
         /**
          * On release we update the time and seek to it in the video.
          */
-        onPanResponderRelease: (evt, gestureState) => {
+        onPanResponderRelease: (_evt, _gestureState) => {
           const time = calculateTimeFromSeekerPosition();
           if (time >= duration && !loading) {
             setPaused(true);
@@ -425,11 +428,11 @@ export default function VideoPlayer({
   );
 
   const renderControl = useCallback(
-    (children, callback, style = {}) => (
+    (children, callback, controlStyle = {}) => (
       <TouchableHighlight
         underlayColor="transparent"
         onPress={callback}
-        style={[styles.controlsControl, style]}
+        style={[styles.controlsControl, controlStyle]}
       >
         {children}
       </TouchableHighlight>
@@ -440,10 +443,10 @@ export default function VideoPlayer({
   const renderMuteUnmuteControl = useCallback(
     () =>
       renderControl(
-        <FA5Icon
+        <Icon
           color={styles.actionButtons.color}
-          size={18}
-          name={`volume-${muted ? 'mute' : 'up'}`}
+          size={IconSize.Sm}
+          name={muted ? IconName.VolumeOff : IconName.VolumeUp}
         />,
         toggleMuted,
         styles.controlsMuteUnmute,
@@ -504,10 +507,10 @@ export default function VideoPlayer({
   const renderPlayPause = useCallback(
     () =>
       renderControl(
-        <FA5Icon
+        <Icon
           color={styles.actionButtons.color}
-          size={16}
-          name={paused ? 'play' : 'pause'}
+          size={IconSize.Sm}
+          name={paused ? IconName.Start : IconName.Pending}
         />,
         togglePlayPause,
         styles.controlsPlayPause,
