@@ -51,94 +51,48 @@ export type StateFromReducer<reducer> = reducer extends Reducer<
   ? State
   : never;
 
-export interface BookmarksState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface BrowserState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface ModalsState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface SettingsState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface PrivacyState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface AlertState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface TransactionState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface NotificationState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface SwapsState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface CollectiblesState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface InfuraAvailabilityState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface AccountsState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface RpcEventsState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface ExperimentalSettingsState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-export interface NetworkOnboardedState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
-
 export interface RootState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   legalNotices: any;
-  collectibles: CollectiblesState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  collectibles: any;
   engine: { backgroundState: EngineState };
-  privacy: PrivacyState;
-  bookmarks: BookmarksState;
-  browser: BrowserState;
-  modals: ModalsState;
-  settings: SettingsState;
-  alert: AlertState;
-  transaction: TransactionState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  privacy: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  bookmarks: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  browser: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  modals: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  settings: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  alert: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  transaction: any;
   user: UserState;
   onboarding: OnboardingState;
-  notification: NotificationState;
-  swaps: SwapsState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  notification: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  swaps: any;
   fiatOrders: StateFromReducer<typeof fiatOrders>;
-  infuraAvailability: InfuraAvailabilityState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  infuraAvailability: any;
   navigation: NavigationState;
-  networkOnboarded: NetworkOnboardedState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  networkOnboarded: any;
   security: SecurityState;
   sdk: StateFromReducer<typeof sdkReducer>;
-  experimentalSettings: ExperimentalSettingsState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  experimentalSettings: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   signatureRequest: any;
-  rpcEvents: RpcEventsState;
-  accounts: AccountsState;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rpcEvents: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  accounts: any;
   inpageProvider: StateFromReducer<typeof inpageProviderReducer>;
   confirmationMetrics: StateFromReducer<typeof confirmationMetricsReducer>;
   originThrottling: StateFromReducer<typeof originThrottlingReducer>;
