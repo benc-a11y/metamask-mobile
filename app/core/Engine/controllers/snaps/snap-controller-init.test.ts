@@ -12,6 +12,7 @@ import { ExtendedControllerMessenger } from '../../../ExtendedControllerMessenge
 import { KeyringControllerGetKeyringsByTypeAction } from '@metamask/keyring-controller';
 import { store } from '../../../../store';
 import { MetaMetrics } from '../../../Analytics';
+import type { RootState } from '../../../../reducers';
 
 jest.mock('@metamask/snaps-controllers');
 
@@ -130,12 +131,17 @@ describe('SnapControllerInit', () => {
       const controllerMock = jest.mocked(SnapController);
       const getFeatureFlags = controllerMock.mock.calls[0][0].getFeatureFlags;
 
-      // @ts-expect-error: Partial mock.
       jest.mocked(store.getState).mockReturnValue({
         settings: {
+          searchEngine: 'DuckDuckGo',
+          primaryCurrency: 'ETH',
+          lockTime: -1,
+          useBlockieIcon: true,
+          hideZeroBalanceTokens: false,
           basicFunctionalityEnabled: true,
+          deepLinkModalDisabled: false,
         },
-      });
+      } as RootState);
 
       expect(getFeatureFlags()).toEqual({
         disableSnaps: false,

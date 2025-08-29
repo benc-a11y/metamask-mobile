@@ -75,7 +75,13 @@ const mockWallet = {
 
 const mockInitialState: Partial<RootState> = {
   settings: {
+    searchEngine: 'DuckDuckGo',
+    primaryCurrency: 'ETH',
+    lockTime: -1,
     useBlockieIcon: false,
+    hideZeroBalanceTokens: false,
+    basicFunctionalityEnabled: true,
+    deepLinkModalDisabled: false,
   },
 };
 
