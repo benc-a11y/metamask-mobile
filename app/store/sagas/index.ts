@@ -29,6 +29,7 @@ import {
   SetCompletedOnboardingAction,
 } from '../../actions/onboarding';
 import { selectCompletedOnboarding } from '../../selectors/onboarding';
+import { SettingsActionType } from '../../actions/settings/types';
 
 export function* appLockStateMachine() {
   let biometricsListenerTask: Task<void> | undefined;
@@ -123,7 +124,7 @@ export function* biometricsStateMachine(originalBioStateMachineId: string) {
 export function* basicFunctionalityToggle() {
   while (true) {
     const { basicFunctionalityEnabled } = yield take(
-      'TOGGLE_BASIC_FUNCTIONALITY',
+      SettingsActionType.TOGGLE_BASIC_FUNCTIONALITY,
     );
 
     if (basicFunctionalityEnabled) {

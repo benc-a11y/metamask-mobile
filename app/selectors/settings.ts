@@ -1,4 +1,5 @@
 import { RootState } from '../reducers';
+import { SettingsState } from '../reducers/settings';
 import { createSelector } from 'reselect';
 import { createDeepEqualSelector } from './util';
 
@@ -6,39 +7,37 @@ const selectSettings = (state: RootState) => state.settings;
 
 export const selectShowFiatInTestnets = createSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) =>
-    settingsState.showFiatOnTestnets as boolean,
+  (settingsState: SettingsState) => settingsState.showFiatOnTestnets as boolean,
 );
 
 export const selectPrimaryCurrency = createSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) => settingsState.primaryCurrency,
+  (settingsState: SettingsState) => settingsState.primaryCurrency,
 );
 export const selectShowCustomNonce = createSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) => settingsState.showCustomNonce,
+  (settingsState: SettingsState) => settingsState.showCustomNonce,
 );
 
 export const selectBasicFunctionalityEnabled = createSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) =>
+  (settingsState: SettingsState) =>
     settingsState.basicFunctionalityEnabled as boolean,
 );
 
 export const selectHideZeroBalanceTokens = createSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) =>
+  (settingsState: SettingsState) =>
     Boolean(settingsState.hideZeroBalanceTokens),
 );
 
 export const selectDeepLinkModalDisabled = createSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) =>
+  (settingsState: SettingsState) =>
     Boolean(settingsState.deepLinkModalDisabled),
 );
 
 export const selectUseBlockieIcon = createDeepEqualSelector(
   selectSettings,
-  (settingsState: Record<string, unknown>) =>
-    Boolean(settingsState.useBlockieIcon),
+  (settingsState: SettingsState) => Boolean(settingsState.useBlockieIcon),
 );
