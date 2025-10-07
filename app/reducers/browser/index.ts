@@ -2,16 +2,59 @@ import { BrowserActionTypes } from '../../actions/browser';
 import AppConstants from '../../core/AppConstants';
 import { appendURLParams } from '../../util/browser';
 
-const initialState = {
+interface HistoryItem {
+  url: string;
+  name: string;
+}
+
+interface Tab {
+  url: string;
+  id: string;
+  linkType?: string;
+  [key: string]: unknown;
+}
+
+interface Favicon {
+  origin: string;
+  url: string;
+}
+
+export interface BrowserState {
+  history: HistoryItem[];
+  whitelist: string[];
+  tabs: Tab[];
+  favicons: Favicon[];
+  activeTab: string | null;
+  visitedDappsByHostname: Record<string, boolean>;
+}
+
+interface BrowserAction {
+  type: string;
+  hostname?: string;
+  url?: string;
+  name?: string;
+  metricsEnabled?: boolean;
+  marketingEnabled?: boolean;
+  id?: string;
+  linkType?: string;
+  data?: Record<string, unknown>;
+  origin?: string;
+}
+
+export const initialState: BrowserState = {
   history: [],
   whitelist: [],
   tabs: [],
   favicons: [],
   activeTab: null,
-  // Keep track of viewed Dapps, which is used for MetaMetricsEvents.DAPP_VIEWED event
   visitedDappsByHostname: {},
 };
-const browserReducer = (state = initialState, action) => {
+
+/* eslint-disable @typescript-eslint/default-param-last, @typescript-eslint/no-non-null-assertion */
+const browserReducer = (
+  state: BrowserState = initialState,
+  action: BrowserAction,
+): BrowserState => {
   switch (action.type) {
     case BrowserActionTypes.ADD_TO_VIEWED_DAPP: {
       const { hostname } = action;
@@ -19,7 +62,7 @@ const browserReducer = (state = initialState, action) => {
         ...state,
         visitedDappsByHostname: {
           ...state.visitedDappsByHostname,
-          [hostname]: true,
+          [hostname!]: true,
         },
       };
     }
@@ -28,13 +71,13 @@ const browserReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        history: [...state.history, { url, name }].slice(-50),
+        history: [...state.history, { url: url!, name: name! }].slice(-50),
       };
     }
     case 'ADD_TO_BROWSER_WHITELIST':
       return {
         ...state,
-        whitelist: [...state.whitelist, action.url],
+        whitelist: [...state.whitelist, action.url!],
       };
     case 'CLEAR_BROWSER_HISTORY':
       return {
@@ -44,13 +87,13 @@ const browserReducer = (state = initialState, action) => {
         tabs: [
           {
             url: appendURLParams(AppConstants.HOMEPAGE_URL, {
-              metricsEnabled: action.metricsEnabled,
-              marketingEnabled: action.marketingEnabled,
+              metricsEnabled: action.metricsEnabled!,
+              marketingEnabled: action.marketingEnabled!,
             }).href,
-            id: action.id,
+            id: action.id!,
           },
         ],
-        activeTab: action.id,
+        activeTab: action.id!,
       };
     case 'CLOSE_ALL_TABS':
       return {
@@ -63,28 +106,28 @@ const browserReducer = (state = initialState, action) => {
         tabs: [
           ...state.tabs,
           {
-            url: action.url,
+            url: action.url!,
             ...(action.linkType && { linkType: action.linkType }),
-            id: action.id,
+            id: action.id!,
           },
         ],
       };
     case 'CLOSE_TAB':
       return {
         ...state,
-        tabs: state.tabs.filter((tab) => tab.id !== action.id),
+        tabs: state.tabs.filter((tab) => tab.id !== action.id!),
       };
     case 'SET_ACTIVE_TAB':
       return {
         ...state,
-        activeTab: action.id,
+        activeTab: action.id!,
       };
     case 'UPDATE_TAB':
       return {
         ...state,
         tabs: state.tabs.map((tab) => {
-          if (tab.id === action.id) {
-            return { ...tab, ...action.data };
+          if (tab.id === action.id!) {
+            return { ...tab, ...action.data! };
           }
           return { ...tab };
         }),
@@ -93,7 +136,7 @@ const browserReducer = (state = initialState, action) => {
       return {
         ...state,
         favicons: [
-          { origin: action.origin, url: action.url },
+          { origin: action.origin!, url: action.url! },
           ...state.favicons,
         ].slice(0, AppConstants.FAVICON_CACHE_MAX_SIZE),
       };

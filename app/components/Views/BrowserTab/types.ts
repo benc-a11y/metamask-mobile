@@ -44,7 +44,7 @@ export type BrowserTabProps = SharedTabProps & {
   /**
    * The ID of the active tab
    */
-  activeTab: number;
+  activeTab: string | null;
   /**
    * InitialUrl
    */

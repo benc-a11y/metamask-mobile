@@ -54,7 +54,7 @@ export type FuseSearchResult = {
     | UrlAutocompleteCategory.Recents
     | UrlAutocompleteCategory.Favorites;
   url: string;
-  name: string;
+  name?: string;
 };
 
 /**

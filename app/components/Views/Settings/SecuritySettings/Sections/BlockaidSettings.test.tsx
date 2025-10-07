@@ -8,7 +8,15 @@ import BlockaidSettings from './BlockaidSettings';
 const initialState = {
   privacy: { approvedHosts: {} },
   browser: { history: [] },
-  settings: { lockTime: 1000 },
+  settings: {
+    lockTime: 1000,
+    searchEngine: 'Google',
+    primaryCurrency: 'ETH',
+    useBlockieIcon: true,
+    hideZeroBalanceTokens: false,
+    basicFunctionalityEnabled: true,
+    deepLinkModalDisabled: false,
+  },
   user: { passwordSet: true },
   engine: {
     backgroundState,

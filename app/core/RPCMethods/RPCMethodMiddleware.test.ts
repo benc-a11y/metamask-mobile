@@ -211,7 +211,7 @@ function getMinimalOptions() {
 function getMinimalBrowserOptions() {
   return {
     ...getMinimalOptions(),
-    tabId: 1,
+    tabId: '1',
   };
 }
 
@@ -286,7 +286,7 @@ function setupGlobalState({
   networkConfigurationsByChainId,
   selectedAddress,
 }: {
-  activeTab?: number;
+  activeTab?: string;
   addTransactionResult?: Promise<string>;
   permittedAccounts?: Record<string, string[]>;
   selectedNetworkClientId: string;
@@ -301,11 +301,14 @@ function setupGlobalState({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .spyOn(store as Store<Partial<RootState>, any>, 'getState')
     .mockImplementation(() => ({
-      browser: activeTab
-        ? {
-            activeTab,
-          }
-        : {},
+      browser: {
+        history: [],
+        whitelist: [],
+        tabs: [],
+        favicons: [],
+        activeTab: activeTab || null,
+        visitedDappsByHostname: {},
+      },
       engine: {
         backgroundState: {
           ...backgroundState,
@@ -351,7 +354,7 @@ const signatureMock = '0x1234567890';
 
 function setupSignature() {
   setupGlobalState({
-    activeTab: 1,
+    activeTab: '1',
     selectedNetworkClientId: 'mainnet',
     networksMetadata: {},
     networkConfigurationsByChainId: {
@@ -1004,7 +1007,7 @@ describe('getRpcMethodMiddleware', () => {
       it('sends the transaction and returns the resulting hash', async () => {
         const mockAddress = '0x0000000000000000000000000000000000000001';
         const mockTransactionParameters = { from: mockAddress, chainId: '0x1' };
-        const mockTabId = 10;
+        const mockTabId = '10';
         setupGlobalState({
           activeTab: mockTabId,
           addTransactionResult: Promise.resolve('fake-hash'),
@@ -1051,8 +1054,8 @@ describe('getRpcMethodMiddleware', () => {
         const mockAddress = '0x0000000000000000000000000000000000000001';
         const mockTransactionParameters = { from: mockAddress, chainId: '0x1' };
         // Tab used by middleware DOES NOT match current tab
-        const requestTabId = 10;
-        const activeTabId = 20;
+        const requestTabId = '10';
+        const activeTabId = '20';
         setupGlobalState({
           activeTab: activeTabId,
           addTransactionResult: Promise.resolve('fake-hash'),
@@ -1104,7 +1107,7 @@ describe('getRpcMethodMiddleware', () => {
       it('returns a JSON-RPC error if the site does not have permission to use the referenced account', async () => {
         const mockAddress = '0x0000000000000000000000000000000000000001';
         const mockTransactionParameters = { from: mockAddress, chainId: '0x1' };
-        const mockTabId = 10;
+        const mockTabId = '10';
         setupGlobalState({
           activeTab: mockTabId,
           addTransactionResult: Promise.resolve('fake-hash'),

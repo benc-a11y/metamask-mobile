@@ -1,4 +1,19 @@
-const initialState = {
+export interface ModalsState {
+  networkModalVisible: boolean;
+  shouldNetworkSwitchPopToWallet: boolean;
+  collectibleContractModalVisible: boolean;
+  dappTransactionModalVisible: boolean;
+  signMessageModalVisible: boolean;
+  infoNetworkModalVisible?: boolean;
+}
+
+interface ModalsAction {
+  type: string;
+  shouldNetworkSwitchPopToWallet?: boolean;
+  show?: boolean | null;
+}
+
+export const initialState: ModalsState = {
   networkModalVisible: false,
   shouldNetworkSwitchPopToWallet: true,
   collectibleContractModalVisible: false,
@@ -6,13 +21,18 @@ const initialState = {
   signMessageModalVisible: true,
 };
 
-const modalsReducer = (state = initialState, action) => {
+/* eslint-disable @typescript-eslint/default-param-last */
+const modalsReducer = (
+  state: ModalsState = initialState,
+  action: ModalsAction,
+): ModalsState => {
   switch (action.type) {
     case 'TOGGLE_NETWORK_MODAL':
       return {
         ...state,
         networkModalVisible: !state.networkModalVisible,
-        shouldNetworkSwitchPopToWallet: action.shouldNetworkSwitchPopToWallet,
+        shouldNetworkSwitchPopToWallet:
+          action.shouldNetworkSwitchPopToWallet ?? true,
       };
     case 'TOGGLE_COLLECTIBLE_CONTRACT_MODAL':
       return {
@@ -29,7 +49,7 @@ const modalsReducer = (state = initialState, action) => {
       return {
         ...state,
         dappTransactionModalVisible:
-          action.show === null
+          action.show === null || action.show === undefined
             ? !state.dappTransactionModalVisible
             : action.show,
       };

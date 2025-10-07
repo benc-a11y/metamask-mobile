@@ -1,7 +1,68 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/default-param-last */
 import { REHYDRATE } from 'redux-persist';
 import { getTxData, getTxMeta } from '../../util/transaction-reducer-helpers';
+import { SecurityAlertResponse } from '../../components/Views/confirmations/legacy/components/BlockaidBanner/BlockaidBanner.types';
 
-const initialState = {
+interface TransactionObject {
+  data?: string;
+  from?: string;
+  gas?: string;
+  gasPrice?: string;
+  to?: string;
+  value?: string;
+  maxFeePerGas?: string;
+  maxPriorityFeePerGas?: string;
+}
+
+interface SelectedAsset {
+  tokenId?: string;
+  isETH?: boolean;
+  symbol?: string;
+  [key: string]: unknown;
+}
+
+export interface TransactionState {
+  ensRecipient?: string;
+  assetType?: string;
+  selectedAsset: SelectedAsset;
+  transaction: TransactionObject;
+  warningGasPriceHigh?: string;
+  transactionTo?: string;
+  transactionToName?: string;
+  transactionFromName?: string;
+  transactionValue?: string;
+  symbol?: string;
+  paymentRequest?: unknown;
+  readableValue?: string;
+  id?: string;
+  type?: string;
+  proposedNonce?: string;
+  nonce?: string;
+  securityAlertResponses: Record<string, SecurityAlertResponse>;
+  useMax: boolean;
+  maxValueMode?: boolean;
+}
+
+interface TransactionAction {
+  type: string;
+  selectedAsset?: SelectedAsset;
+  assetType?: string;
+  nonce?: string;
+  proposedNonce?: string;
+  from?: string;
+  ensRecipient?: string;
+  to?: string;
+  transactionToName?: string;
+  transactionFromName?: string;
+  transaction?: any;
+  asset?: SelectedAsset;
+  transactionId?: string;
+  securityAlertResponse?: SecurityAlertResponse;
+  maxValueMode?: boolean;
+  value?: string;
+}
+
+export const initialState: TransactionState = {
   ensRecipient: undefined,
   assetType: undefined,
   selectedAsset: {},
@@ -12,7 +73,6 @@ const initialState = {
     gasPrice: undefined,
     to: undefined,
     value: undefined,
-    // eip1559
     maxFeePerGas: undefined,
     maxPriorityFeePerGas: undefined,
   },
@@ -32,7 +92,7 @@ const initialState = {
   useMax: false,
 };
 
-const getAssetType = (selectedAsset) => {
+const getAssetType = (selectedAsset: SelectedAsset): string | undefined => {
   let assetType;
   if (selectedAsset) {
     if (selectedAsset.tokenId) {
@@ -46,7 +106,10 @@ const getAssetType = (selectedAsset) => {
   return assetType;
 };
 
-const transactionReducer = (state = initialState, action) => {
+const transactionReducer = (
+  state: TransactionState = initialState,
+  action: TransactionAction,
+): TransactionState => {
   switch (action.type) {
     case REHYDRATE:
       return {
@@ -60,7 +123,7 @@ const transactionReducer = (state = initialState, action) => {
       return {
         ...state,
         ...initialState,
-        selectedAsset: action.selectedAsset,
+        selectedAsset: action.selectedAsset || {},
         assetType: action.assetType,
       };
     case 'SET_NONCE':
@@ -83,7 +146,7 @@ const transactionReducer = (state = initialState, action) => {
         transactionFromName: action.transactionFromName,
       };
     case 'SET_SELECTED_ASSET': {
-      const selectedAsset = action.selectedAsset;
+      const selectedAsset = action.selectedAsset || {};
       const assetType = action.assetType || getAssetType(selectedAsset);
       return {
         ...state,
@@ -107,19 +170,18 @@ const transactionReducer = (state = initialState, action) => {
         ...state,
         transaction: {
           ...state.transaction,
-          ...getTxData(action.transaction),
+          ...(getTxData(action.transaction) as TransactionObject),
         },
         ...txMeta,
-        // Retain the securityAlertResponses from the old state
         securityAlertResponses: state.securityAlertResponses,
       };
     }
     case 'SET_TOKENS_TRANSACTION': {
-      const selectedAsset = action.asset;
+      const selectedAsset = action.asset || {};
       const assetType = getAssetType(selectedAsset);
       return {
         ...state,
-        selectedAsset: action.asset,
+        selectedAsset,
         assetType,
       };
     }
@@ -130,10 +192,13 @@ const transactionReducer = (state = initialState, action) => {
         assetType: 'ETH',
         selectedAsset: { isETH: true, symbol: 'ETH' },
         ...getTxMeta(action.transaction),
-        transaction: getTxData(action.transaction),
+        transaction: getTxData(action.transaction) as TransactionObject,
       };
     case 'SET_TRANSACTION_SECURITY_ALERT_RESPONSE': {
       const { transactionId, securityAlertResponse } = action;
+      if (!transactionId || !securityAlertResponse) {
+        return state;
+      }
       return {
         ...state,
         securityAlertResponses: {
@@ -167,4 +232,6 @@ const transactionReducer = (state = initialState, action) => {
 };
 export default transactionReducer;
 
-export const selectTransactionState = (state) => state.transaction;
+export const selectTransactionState = (state: {
+  transaction: TransactionState;
+}) => state.transaction;

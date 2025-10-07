@@ -1,6 +1,21 @@
 import { SET_TRANSACTION_SEND_FLOW_CONTEXTUAL_CHAIN_ID } from '../../actions/sendFlow';
 
-export const initialState = {
+export interface NetworkOnboardedState {
+  networkOnboardedState: Record<string, boolean>;
+  networkState: {
+    showNetworkOnboarding: boolean;
+    nativeToken: string;
+    networkType: string;
+    networkUrl: string;
+  };
+  switchedNetwork: {
+    networkUrl: string;
+    networkStatus: boolean;
+  };
+  sendFlowChainId: string | null;
+}
+
+export const initialState: NetworkOnboardedState = {
   networkOnboardedState: {},
   networkState: {
     showNetworkOnboarding: false,
@@ -22,7 +37,7 @@ export const initialState = {
  */
 
 function networkOnboardReducer(
-  state = initialState,
+  state: NetworkOnboardedState = initialState,
   action: {
     nativeToken: string;
     networkType: string;
@@ -43,7 +58,7 @@ function networkOnboardReducer(
     chainId: undefined,
     payload: undefined,
   },
-) {
+): NetworkOnboardedState {
   switch (action.type) {
     case 'SHOW_NETWORK_ONBOARDING':
       return {
@@ -80,7 +95,7 @@ function networkOnboardReducer(
     case SET_TRANSACTION_SEND_FLOW_CONTEXTUAL_CHAIN_ID: {
       return {
         ...state,
-        sendFlowChainId: action.chainId,
+        sendFlowChainId: action.chainId ?? null,
       };
     }
     default:

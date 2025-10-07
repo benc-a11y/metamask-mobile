@@ -112,7 +112,7 @@ export interface RPCMethodsMiddleParameters {
   fromHomepage: { current: boolean };
   toggleUrlModal: (shouldClearUrlInput: boolean) => void;
   // For the browser
-  tabId: number | '' | false;
+  tabId: string | '' | false;
   // For WalletConnect
   isWalletConnect: boolean;
   // For MM SDK
@@ -953,7 +953,8 @@ export const getRpcMethodMiddleware = ({
                   const { bookmarks: updatedBookmarks } = store.getState();
 
                   if (isHomepage()) {
-                    injectHomePageScripts(updatedBookmarks);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    injectHomePageScripts(updatedBookmarks as any);
                   }
 
                   res.result = {

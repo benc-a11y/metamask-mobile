@@ -24,7 +24,15 @@ import { strings } from '../../../../../locales/i18n';
 const initialState = {
   privacy: { approvedHosts: {} },
   browser: { history: [] },
-  settings: { lockTime: 1000, basicFunctionalityEnabled: true },
+  settings: {
+    lockTime: 1000,
+    basicFunctionalityEnabled: true,
+    searchEngine: 'Google',
+    primaryCurrency: 'ETH',
+    useBlockieIcon: true,
+    hideZeroBalanceTokens: false,
+    deepLinkModalDisabled: false,
+  },
   user: { passwordSet: true },
   engine: {
     backgroundState: {

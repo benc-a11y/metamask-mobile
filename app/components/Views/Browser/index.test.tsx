@@ -52,11 +52,11 @@ jest.mock('../../UI/Tabs/TabThumbnail/TabThumbnail', () => ({
 }));
 
 const mockTabs = [
-  { id: 1, url: 'about:blank', image: '', isArchived: false },
-  { id: 2, url: 'about:blank', image: '', isArchived: false },
-  { id: 3, url: 'about:blank', image: '', isArchived: false },
-  { id: 4, url: 'about:blank', image: '', isArchived: false },
-  { id: 5, url: 'about:blank', image: '', isArchived: false },
+  { id: '1', url: 'about:blank', image: '', isArchived: false },
+  { id: '2', url: 'about:blank', image: '', isArchived: false },
+  { id: '3', url: 'about:blank', image: '', isArchived: false },
+  { id: '4', url: 'about:blank', image: '', isArchived: false },
+  { id: '5', url: 'about:blank', image: '', isArchived: false },
 ];
 
 const mockInitialState = {
@@ -75,7 +75,7 @@ const mockInitialState = {
   },
   browser: {
     tabs: mockTabs,
-    activeTab: 1,
+    activeTab: '1',
   },
 };
 
@@ -149,7 +149,7 @@ describe('Browser', () => {
                   <Browser
                     route={routeMock}
                     tabs={mockTabs}
-                    activeTab={1}
+                    activeTab={'1'}
                     navigation={mockNavigation}
                     createNewTab={jest.fn}
                     closeAllTabs={jest.fn}
@@ -182,7 +182,7 @@ describe('Browser', () => {
                 <Browser
                   route={routeMock}
                   tabs={[]}
-                  activeTab={1}
+                  activeTab={'1'}
                   navigation={mockNavigation}
                   createNewTab={mockCreateNewTab}
                   closeAllTabs={jest.fn}
@@ -214,7 +214,7 @@ describe('Browser', () => {
                 <Browser
                   route={routeMock}
                   tabs={[]}
-                  activeTab={1}
+                  activeTab={'1'}
                   navigation={mockNavigation}
                   createNewTab={mockCreateNewTab}
                   closeAllTabs={jest.fn}
@@ -245,7 +245,7 @@ describe('Browser', () => {
                 <Browser
                   route={routeMock}
                   tabs={[]}
-                  activeTab={1}
+                  activeTab={'1'}
                   navigation={mockNavigation}
                   createNewTab={jest.fn}
                   closeAllTabs={jest.fn}
@@ -275,7 +275,7 @@ describe('Browser', () => {
                     params: { newTabUrl: 'about:blank', timestamp: '987' },
                   }}
                   tabs={mockTabs}
-                  activeTab={1}
+                  activeTab={'1'}
                   navigation={mockNavigation}
                   createNewTab={jest.fn}
                   closeAllTabs={jest.fn}
@@ -300,8 +300,8 @@ describe('Browser', () => {
 
   it('should mark a tab as archived if it has been idle for too long', async () => {
     const mockTabsForIdling = [
-      { id: 1, url: 'about:blank', image: '', isArchived: false },
-      { id: 2, url: 'about:blank', image: '', isArchived: false },
+      { id: '1', url: 'about:blank', image: '', isArchived: false },
+      { id: '2', url: 'about:blank', image: '', isArchived: false },
     ];
 
     jest.useFakeTimers();
@@ -316,7 +316,7 @@ describe('Browser', () => {
                 <Browser
                   route={{ params: {} }}
                   tabs={mockTabsForIdling}
-                  activeTab={1}
+                  activeTab={'1'}
                   navigation={mockNavigation}
                   createNewTab={jest.fn}
                   closeAllTabs={jest.fn}
@@ -336,7 +336,7 @@ describe('Browser', () => {
       jest.advanceTimersByTime(1000 * 60 * 5);
     });
 
-    expect(mockUpdateTab).toHaveBeenCalledWith(2, { isArchived: true });
+    expect(mockUpdateTab).toHaveBeenCalledWith('2', { isArchived: true });
   });
 
   it('should show active account toast when visiting a site with permitted accounts', () => {
@@ -498,9 +498,9 @@ describe('Browser', () => {
       setActiveTab: jest.fn(),
       updateTab: jest.fn(),
       tabs: [
-        { id: 1, url: 'https://initial.com', image: '', isArchived: false },
+        { id: '1', url: 'https://initial.com', image: '', isArchived: false },
       ],
-      activeTab: 1,
+      activeTab: '1',
     };
 
     const renderBrowserWithProps = (
@@ -776,7 +776,7 @@ describe('Browser', () => {
       );
       renderBrowserWithProps({
         route: { params: { url: null } }, // browserUrl will be null
-        tabs: [{ id: 1, url: null, image: '', isArchived: false }], // currentUrl might become homePageUrl initially
+        tabs: [{ id: '1', url: null, image: '', isArchived: false }], // currentUrl might become homePageUrl initially
       });
       expect(mockShowToast).not.toHaveBeenCalled();
     });

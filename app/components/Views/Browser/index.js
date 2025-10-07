@@ -501,7 +501,7 @@ Browser.propTypes = {
   /**
    * ID of the active tab
    */
-  activeTab: PropTypes.number,
+  activeTab: PropTypes.string,
   /**
    * Object that represents the current route info like params passed to it
    */
