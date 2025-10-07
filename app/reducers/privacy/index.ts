@@ -1,0 +1,53 @@
+export interface PrivacyState {
+  approvedHosts: Record<string, boolean>;
+  revealSRPTimestamps: number[];
+}
+
+interface PrivacyAction {
+  type: string;
+  hostname?: string;
+  timestamp?: number;
+}
+
+export const initialState: PrivacyState = {
+  approvedHosts: {},
+  revealSRPTimestamps: [],
+};
+
+/* eslint-disable @typescript-eslint/default-param-last, @typescript-eslint/no-non-null-assertion */
+const privacyReducer = (
+  state: PrivacyState = initialState,
+  action: PrivacyAction,
+): PrivacyState => {
+  const newHosts = { ...state.approvedHosts };
+  switch (action.type) {
+    case 'APPROVE_HOST':
+      return {
+        ...state,
+        approvedHosts: {
+          ...state.approvedHosts,
+          [action.hostname!]: true,
+        },
+      };
+    case 'REJECT_HOST':
+      delete newHosts[action.hostname!];
+      return {
+        ...state,
+        approvedHosts: newHosts,
+      };
+    case 'CLEAR_HOSTS':
+      return {
+        ...state,
+        approvedHosts: {},
+      };
+    case 'RECORD_SRP_REVEAL_TIMESTAMP':
+      return {
+        ...state,
+        revealSRPTimestamps: [...state.revealSRPTimestamps, action.timestamp!],
+      };
+    default:
+      return state;
+  }
+};
+
+export default privacyReducer;

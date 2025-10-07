@@ -6,6 +6,17 @@ describe('sendFlow selectors', () => {
   const initialState: RootState = {
     ...initialRootState,
     networkOnboarded: {
+      networkOnboardedState: {},
+      networkState: {
+        showNetworkOnboarding: false,
+        nativeToken: '',
+        networkType: '',
+        networkUrl: '',
+      },
+      switchedNetwork: {
+        networkUrl: '',
+        networkStatus: false,
+      },
       sendFlowChainId: '0x1',
     },
   };
@@ -19,6 +30,7 @@ describe('sendFlow selectors', () => {
       const state = {
         ...initialState,
         networkOnboarded: {
+          ...initialState.networkOnboarded,
           sendFlowChainId: null,
         },
       };
@@ -33,12 +45,13 @@ describe('sendFlow selectors', () => {
       const state = {
         ...initialState,
         networkOnboarded: {
-          sendFlowChainId: undefined,
+          ...initialState.networkOnboarded,
+          sendFlowChainId: null,
         },
       };
 
       const result = selectSendFlowContextualChainId(state);
-      expect(result).toBeUndefined();
+      expect(result).toBeNull();
     });
 
     it('should return undefined when state is null', () => {
@@ -67,6 +80,7 @@ describe('sendFlow selectors', () => {
         const state = {
           ...initialState,
           networkOnboarded: {
+            ...initialState.networkOnboarded,
             sendFlowChainId: chainId,
           },
         };

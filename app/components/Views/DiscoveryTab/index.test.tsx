@@ -43,16 +43,19 @@ jest.mock('@react-navigation/native', () => {
 
 const mockInitialState = {
   browser: {
-    activeTab: 1,
+    activeTab: '1',
     history: [],
     tabs: [
       {
-        id: 1,
+        id: '1',
         url: 'https://metamask.io',
         image: '',
         isArchived: false,
       },
     ],
+    whitelist: [],
+    favicons: [],
+    visitedDappsByHostname: {},
   },
   bookmarks: [],
   engine: {
@@ -61,7 +64,7 @@ const mockInitialState = {
 };
 
 const mockProps = {
-  id: 1,
+  id: '1',
   updateTabInfo: jest.fn(),
   showTabs: jest.fn(),
 };
@@ -146,7 +149,7 @@ describe('DiscoveryTab', () => {
       name: 'Test Token',
       url: 'https://metamask.io',
     });
-    expect(updateTabInfo).toHaveBeenCalledWith(1, {
+    expect(updateTabInfo).toHaveBeenCalledWith('1', {
       url: 'https://metamask.io',
     });
   });

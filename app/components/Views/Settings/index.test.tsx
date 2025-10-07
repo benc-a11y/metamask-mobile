@@ -19,12 +19,16 @@ import { Authentication } from '../../../core';
 
 const initialState = {
   user: { seedphraseBackedUp: true, passwordSet: true },
-  privacy: { approvedHosts: [] },
+  privacy: { approvedHosts: {} },
   browser: { history: [] },
   settings: {
     lockTime: 1000,
     searchEngine: 'Google',
     useBlockieIcon: true,
+    primaryCurrency: 'ETH',
+    hideZeroBalanceTokens: false,
+    basicFunctionalityEnabled: true,
+    deepLinkModalDisabled: false,
   },
   engine: {
     backgroundState,

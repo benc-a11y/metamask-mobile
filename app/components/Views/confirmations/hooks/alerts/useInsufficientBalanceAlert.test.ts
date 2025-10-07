@@ -81,6 +81,10 @@ describe('useInsufficientBalanceAlert', () => {
       return key;
     });
     mockSelectTransactionState.mockReturnValue({
+      selectedAsset: {},
+      transaction: {},
+      securityAlertResponses: {},
+      useMax: false,
       maxValueMode: false,
     });
     mockUseConfirmActions.mockReturnValue({
@@ -98,6 +102,10 @@ describe('useInsufficientBalanceAlert', () => {
 
   it('return empty array when max value mode is enabled', () => {
     mockSelectTransactionState.mockReturnValue({
+      selectedAsset: {},
+      transaction: {},
+      securityAlertResponses: {},
+      useMax: false,
       maxValueMode: true,
     });
 
@@ -190,6 +198,10 @@ describe('useInsufficientBalanceAlert', () => {
   describe('when ignoreGasFeeToken is true', () => {
     it('returns empty array', () => {
       mockSelectTransactionState.mockReturnValue({
+        selectedAsset: {},
+        transaction: {},
+        securityAlertResponses: {},
+        useMax: false,
         maxValueMode: true,
       });
       const { result } = renderHook(() =>

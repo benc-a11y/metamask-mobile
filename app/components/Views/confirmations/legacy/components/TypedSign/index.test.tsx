@@ -15,6 +15,7 @@ import { fireEvent, waitFor } from '@testing-library/react-native';
 import { MetaMetrics } from '../../../../../../core/Analytics';
 import { MOCK_ACCOUNTS_CONTROLLER_STATE } from '../../../../../../util/test/accountsControllerTestUtils';
 import { SigningBottomSheetSelectorsIDs } from '../../../../../../../e2e/selectors/Browser/SigningBottomSheet.selectors';
+import { ResultType } from '../../../constants/signatures';
 
 jest.mock('../../../../../../core/Analytics/MetaMetrics');
 
@@ -95,8 +96,7 @@ const initialState = {
       description: '',
       features: [],
       providerRequestsCount: { eth_chainId: 1 },
-      reason: '',
-      result_type: 'Benign',
+      result_type: ResultType.Benign,
     },
   },
 };

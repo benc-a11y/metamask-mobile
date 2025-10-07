@@ -23,7 +23,14 @@ jest.mock('@react-navigation/native', () => {
 });
 
 const mockInitialState = {
-  browser: { activeTab: '' },
+  browser: {
+    history: [],
+    whitelist: [],
+    tabs: [],
+    favicons: [],
+    activeTab: null,
+    visitedDappsByHostname: {},
+  },
   engine: {
     backgroundState: {
       ...backgroundState,
@@ -31,7 +38,7 @@ const mockInitialState = {
     },
   },
   transaction: {
-    selectedAsset: '',
+    selectedAsset: {},
   },
 };
 
@@ -48,8 +55,8 @@ jest.mock('../../../core/Engine', () => ({
 }));
 
 const mockProps = {
-  id: 1,
-  activeTab: 1,
+  id: '1',
+  activeTab: '1',
   defaultProtocol: 'https://',
   selectedAddress: '0x123',
   whitelist: [],

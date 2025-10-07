@@ -5,7 +5,7 @@ export interface SharedTabProps {
   /**
    * The ID of the current tab
    */
-  id: number;
+  id: string;
 
   /**
    * Function to update the tab information
@@ -16,7 +16,7 @@ export interface SharedTabProps {
    * Function to update the tab information
    */
   updateTabInfo: (
-    tabID: number,
+    tabID: string,
     info: { url?: string; isArchived?: boolean; image?: string },
   ) => void;
 }

@@ -132,9 +132,11 @@ export const selectContractBalancesByContextualChainId = createSelector(
   (
     tokenBalancesControllerState: TokenBalancesControllerState,
     selectedInternalAccountAddress: string | undefined,
-    contextualChainId: string,
+    contextualChainId: string | null,
   ) =>
-    tokenBalancesControllerState.tokenBalances?.[
-      selectedInternalAccountAddress as Hex
-    ]?.[contextualChainId as Hex] ?? {},
+    contextualChainId
+      ? tokenBalancesControllerState.tokenBalances?.[
+          selectedInternalAccountAddress as Hex
+        ]?.[contextualChainId as Hex] ?? {}
+      : {},
 );

@@ -4,7 +4,7 @@ import { createDeepEqualSelector } from './util';
 
 interface SiteItem {
   url: string;
-  name: string;
+  name?: string;
 }
 
 export const selectBrowserHistoryWithType = createDeepEqualSelector(

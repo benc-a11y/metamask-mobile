@@ -12,7 +12,7 @@ import { FeatureFlags } from '@metamask/swaps-controller/dist/types';
 // so we need to use type assertions in some places
 
 interface SwapsAction {
-  type: string | null;
+  type: string;
   payload?: object | null;
 }
 
@@ -65,7 +65,7 @@ import reducer, {
   getFeatureFlagChainId,
 } from './index';
 
-const emptyAction: SwapsAction = { type: null };
+const emptyAction: SwapsAction = { type: '' };
 
 const DEFAULT_FEATURE_FLAGS = {
   ethereum: {

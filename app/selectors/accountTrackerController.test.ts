@@ -142,10 +142,10 @@ describe('selectAccountsByContextualChainId', () => {
     expect(result).toEqual({});
   });
 
-  it('falls back to chainId when contextual chain ID is undefined', () => {
+  it('falls back to chainId when contextual chain ID is null', () => {
     const result = selectAccountsByContextualChainId.resultFunc(
       mockAccountsByChainId,
-      undefined,
+      null,
       '0x1',
     );
 

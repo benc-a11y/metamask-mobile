@@ -14,6 +14,10 @@ import { TESTID_ACCORDION_CONTENT } from '../../../../../../component-library/co
 import { FALSE_POSITIVE_REPOST_LINE_TEST_ID } from '../../components/BlockaidBanner/BlockaidBanner.constants';
 import { createMockAccountsControllerState } from '../../../../../../util/test/accountsControllerTestUtils';
 import { RootState } from '../../../../../../reducers';
+import {
+  Reason,
+  ResultType,
+} from '../../components/BlockaidBanner/BlockaidBanner.types';
 import { RpcEndpointType } from '@metamask/network-controller';
 import { ConfirmViewSelectorsIDs } from '../../../../../../../e2e/selectors/SendFlow/ConfirmView.selectors';
 import { updateConfirmationMetric } from '../../../../../../core/redux/slices/confirmationMetrics';
@@ -109,14 +113,13 @@ const mockInitialState: DeepPartial<RootState> = {
   transaction: {
     securityAlertResponses: {
       1: {
-        result_type: 'Malicious',
-        reason: 'blur_farming',
+        result_type: ResultType.Malicious,
+        reason: Reason.blurFarming,
         providerRequestsCount: {},
         chainId: '0x1',
       },
     },
     selectedAsset: {},
-    chainId: '0x1',
     transaction: {
       from: '0x15249D1a506AFC731Ee941d0D40Cf33FacD34E58',
       to: '0xe64dD0AB5ad7e8C5F2bf6Ce75C34e187af8b920A',
@@ -134,6 +137,17 @@ const mockInitialState: DeepPartial<RootState> = {
     ],
   },
   networkOnboarded: {
+    networkOnboardedState: {},
+    networkState: {
+      showNetworkOnboarding: false,
+      nativeToken: '',
+      networkType: '',
+      networkUrl: '',
+    },
+    switchedNetwork: {
+      networkUrl: '',
+      networkStatus: false,
+    },
     sendFlowChainId: null,
   },
 };

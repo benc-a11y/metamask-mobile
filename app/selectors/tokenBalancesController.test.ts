@@ -206,7 +206,10 @@ describe('TokenBalancesController Selectors', () => {
     const arrange = () => {
       // Deep clone for isolated test
       const mockState: RootState = JSON.parse(JSON.stringify(mockRootState));
-      mockState.settings = { showFiatOnTestnets: true };
+      mockState.settings = {
+        ...mockState.settings,
+        showFiatOnTestnets: true,
+      };
 
       return { mockState };
     };

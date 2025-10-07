@@ -675,8 +675,8 @@ describe('AccountConnect', () => {
     const parsedOriginalURL = new URL(originalURL);
     const mockState = {
       browser: {
-        activeTab: 1,
-        tabs: [{ id: 1, url: originalURL }],
+        activeTab: '1',
+        tabs: [{ id: '1', url: originalURL }],
       },
       engine: {
         backgroundState: {
