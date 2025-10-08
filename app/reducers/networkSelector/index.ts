@@ -1,6 +1,21 @@
 import { SET_TRANSACTION_SEND_FLOW_CONTEXTUAL_CHAIN_ID } from '../../actions/sendFlow';
 
-export const initialState = {
+export interface NetworkOnboardedState {
+  networkOnboardedState: Record<string, boolean>;
+  networkState: {
+    showNetworkOnboarding: boolean;
+    nativeToken: string;
+    networkType: string;
+    networkUrl: string;
+  };
+  switchedNetwork: {
+    networkUrl: string;
+    networkStatus: boolean;
+  };
+  sendFlowChainId: string | null;
+}
+
+export const initialState: NetworkOnboardedState = {
   networkOnboardedState: {},
   networkState: {
     showNetworkOnboarding: false,

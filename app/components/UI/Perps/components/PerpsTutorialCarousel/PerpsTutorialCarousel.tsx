@@ -30,8 +30,7 @@ import { usePerpsFirstTimeUser, usePerpsTrading } from '../../hooks';
 import { usePerpsEventTracking } from '../../hooks/usePerpsEventTracking';
 import createStyles from './PerpsTutorialCarousel.styles';
 import Rive, { Alignment, Fit } from 'rive-react-native';
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, import/no-commonjs, @typescript-eslint/no-unused-vars
-const PerpsOnboardingAnimation = require('../../animations/perps-onboarding-carousel-v4.riv');
+import PerpsOnboardingAnimation from '../../animations/perps-onboarding-carousel-v4.riv';
 
 export enum PERPS_RIVE_ARTBOARD_NAMES {
   INTRO = 'Intro_Perps_v03 2',
