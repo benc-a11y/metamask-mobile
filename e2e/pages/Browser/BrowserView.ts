@@ -1,4 +1,3 @@
-import TestHelpers from '../../helpers';
 import {
   BrowserViewSelectorsIDs,
   BrowserViewSelectorsText,
@@ -283,8 +282,10 @@ class Browser {
    * @returns {Promise<void>}
    */
   async waitForBrowserPageToLoad(): Promise<void> {
-    // eslint-disable-next-line no-restricted-syntax
-    await TestHelpers.delay(5000);
+    await Assertions.expectElementToBeVisible(this.androidBrowserWebViewID, {
+      timeout: 5000,
+      description: 'Browser page should load',
+    });
   }
 
   async navigateToTestDApp(): Promise<void> {

@@ -2,11 +2,12 @@ import { web, system } from 'detox';
 
 /**
  * Utility class for matching (locating) UI elements
+ * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
  */
 class Matchers {
   /**
    * Get element by ID.
-   *
+   * @deprecated Use Matchers.getElementByID() from e2e/framework instead for better error handling and retry mechanisms
    * @param {string | RegExp } elementId - Match elements with the specified testID
    * @param {number} [index] - Index of the element (default: 0)
    * @return {Promise<Detox.IndexableNativeElement | Detox.NativeElement | Detox.IndexableSystemElement>} - Resolves to the located element
@@ -20,7 +21,7 @@ class Matchers {
 
   /**
    * Get element by text.
-   *
+   * @deprecated Use Matchers.getElementByText() from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} text - Match elements with the specified text
    * @param {number} index - Index of the element (default: 0)
    * @return {Promise<Detox.NativeElement>} - Resolves to the located element
@@ -35,7 +36,7 @@ class Matchers {
    * Elements returned match the provided ID and Label at the same time.
    * At this moment, this strategy is only used when trying to select a custom network.
    * TODO: remove the dependency of by.id and by.label. This only reduce further possible acceptable matchers.
-   *
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} id - Match elements with the specified text
    * @param {string | RegExp} label - Match elements with the specified text
    * @param {number} index - Index of the element (default: 0)
@@ -47,7 +48,7 @@ class Matchers {
 
   /**
    * Get element by label.
-   *
+   * @deprecated Use Matchers.getElementByLabel() from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} label - Match elements with the specified accessibility label (iOS) or content description (Android)
    * @param {number} index - Index of the element (default: 0)
    * @return {Promise<Detox.NativeElement>} - Resolves to the located element
@@ -58,7 +59,7 @@ class Matchers {
 
   /**
    * Get element by descendant.
-   *
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} parentElement - Matches elements with at least one descendant that matches the specified matcher.
    * @param {string} childElement - The ID of the child element to locate within the parent element.
    * @return {Promise<Detox.IndexableNativeElement>} - Resolves to the located element
@@ -69,7 +70,7 @@ class Matchers {
 
   /**
    * Get element with ancestor.
-   *
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} childElement - The ID of the child element to locate within the parent element.
    * @param {string} parentElement - Matches elements with at least one descendant that matches the specified matcher.
    * @return {Promise<Detox.IndexableNativeElement>} - Resolves to the located element
@@ -83,6 +84,7 @@ class Matchers {
    *
    * Because Android Webview might have more that one WebView instance present on the main activity, the correct element
    * is select based on its parent element id.
+   * @deprecated Use Matchers.getWebViewByID() from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} elementId The web ID of the browser webview
    * @returns {Detox.WebViewElement} WebView element
    */
@@ -97,7 +99,7 @@ class Matchers {
 
   /**
    * Get element by web ID.
-   *
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} webviewID - The web ID of the inner element to locate within the webview
    * @param {string} innerID - The web ID of the browser webview
    * @return {Promise<Detox.IndexableWebElement | Detox.SecuredWebElementFacade>} Resolves to the located element
@@ -109,6 +111,7 @@ class Matchers {
 
   /**
    * Get element by CSS selector.
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} webviewID - The web ID of the browser webview
    * @param {string} selector - CSS selector to locate the element
    * @return {Promise<Detox.WebElement>} - Resolves to the located element
@@ -120,6 +123,7 @@ class Matchers {
 
   /**
    * Get element by XPath.
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} webviewID - The web ID of the browser webview
    * @param {string} xpath - XPath expression to locate the element
    * @return {Promise<Detox.IndexableWebElement & Detox.SecuredWebElementFacade>} - Resolves to the located element
@@ -131,6 +135,7 @@ class Matchers {
 
   /**
    * Get element by href.
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} webviewID - The web ID of the browser webview
    * @param {string} url - URL string to locate the element
    * @return {Promise<Detox.WebElement>} - Resolves to the located element
@@ -142,7 +147,7 @@ class Matchers {
 
   /**
  * Creates a Detox matcher for identifying an element by its ID.
- *
+ * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
  * @param {string} selectorString - The selector string for identifying the element
  * @returns {Matcher} A Detox matcher that identifies elements by the specified ID.
  *
@@ -159,7 +164,7 @@ class Matchers {
 
   /**
    * Get system dialogs in the system-level (e.g. permissions, alerts, etc.), by text.
-   *
+   * @deprecated Use Matchers from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} text - Match elements with the specified text
    * @return {Promise<Detox.IndexableSystemElement>} - Resolves to the located element
    */
