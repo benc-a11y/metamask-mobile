@@ -7,12 +7,24 @@ module.exports = {
         // E2E Framework Best Practices (starting with warnings, we will be changing to errors when the migration is complete)
         'no-console': 'off',
         'no-restricted-syntax': [
-          'warn',
+          'error',
           {
             selector:
               "CallExpression[callee.object.name='TestHelpers'][callee.property.name='delay']",
             message:
               'Avoid TestHelpers.delay(). Use proper waiting (from `e2e/framework/index.ts`) with Assertions.expectElementToBeVisible() or similar framework methods instead.',
+          },
+          {
+            selector:
+              "CallExpression[callee.object.name='Assertions'][callee.property.name='checkIfVisible']",
+            message:
+              'checkIfVisible() is deprecated. Use Assertions.expectElementToBeVisible() from e2e/framework instead.',
+          },
+          {
+            selector:
+              "CallExpression[callee.object.name='Assertions'][callee.property.name='checkIfTextIsDisplayed']",
+            message:
+              'checkIfTextIsDisplayed() is deprecated. Use Assertions.expectTextDisplayed() from e2e/framework instead.',
           },
         ],
       },

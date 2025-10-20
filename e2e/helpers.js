@@ -327,6 +327,9 @@ export default class TestHelpers {
     });
   }
 
+  /**
+   * @deprecated Use proper element waiting with Assertions.expectElementToBeVisible() or similar framework methods from e2e/framework instead. Arbitrary delays make tests flaky and slow.
+   */
   static delay(ms) {
     return new Promise((resolve) => {
       setTimeout(() => {

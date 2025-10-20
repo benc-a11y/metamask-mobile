@@ -3,13 +3,16 @@ import { waitFor } from 'detox';
 // eslint-disable-next-line import/no-nodejs-modules
 import { setTimeout as asyncSetTimeout } from 'node:timers/promises';
 
+/**
+ * @deprecated Use Utilities from e2e/framework instead for better error handling and retry mechanisms
+ */
 export default class Utilities {
   /**
    * Formats an array of strings into a regex pattern string for exact matching.
    * This method takes an array of strings and returns a string formatted
    * for use in a regex pattern, designed to match any one of the provided strings exactly.
    * The resulting string is suitable for inclusion in a larger regex pattern.
-   *
+   * @deprecated Use Utilities from e2e/framework instead for better error handling and retry mechanisms
    * @param {string[]} regexstrings - An array of strings to be formatted for exact matching in a regex pattern.
    * @returns {string} A string formatted for exact matching within a regex pattern,
    *                    encapsulating the input strings in a way that they can be matched as literals.
@@ -26,7 +29,7 @@ export default class Utilities {
    * This method leverages `formatForExactMatchGroup` to format the `blacklistURLs` array into a regex pattern string,
    * suitable for matching any one of the blacklisted URLs exactly. The `blacklistURLs` should be defined
    * within the class or accessible in the class context.
-   *
+   * @deprecated Use Utilities from e2e/framework instead for better error handling and retry mechanisms
    * @returns {string} A regex pattern string formatted for exact matching of blacklisted URLs.
    * @example
    */
@@ -34,6 +37,9 @@ export default class Utilities {
     return this.formatForExactMatchGroup(blacklistURLs);
   }
 
+  /**
+   * @deprecated Use Utilities.waitForElementToBeEnabled() from e2e/framework instead for better error handling and retry mechanisms
+   */
   static async waitForElementToBeEnabled(
     element,
     timeout = 3500,
@@ -55,7 +61,7 @@ export default class Utilities {
 
   /**
    * Waits for an element to become stable (not moving) by checking its position multiple times.
-   *
+   * @deprecated Use Utilities.waitForElementToStopMoving() from e2e/framework instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check for stability
    * @param {Object} [options={}] - Configuration options
    * @param {number} [options.timeout=5000] - Maximum time to wait for stability (ms)
@@ -117,7 +123,7 @@ export default class Utilities {
    * Waits for a condition to be met within a given timeout period.
    *
    * Note: Copied directly from the extension implementation
-   *
+   * @deprecated Use Utilities.executeWithRetry() from e2e/framework instead for better error handling and retry mechanisms
    * @param {() => Promise<boolean>} condition - The condition to wait for. This function must return a boolean indicating whether the condition is met.
    * @param {object} options - Options for the wait.
    * @param {number} options.timeout - The maximum amount of time (in milliseconds) to wait for the condition to be met.

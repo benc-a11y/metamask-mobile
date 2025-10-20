@@ -14,7 +14,6 @@ import Gestures from '../../framework/Gestures';
 import { SNAP_INSTALL_CONNECT } from '../../../app/components/Approvals/InstallSnapApproval/components/InstallSnapConnectionRequest/InstallSnapConnectionRequest.constants';
 import { SNAP_INSTALL_PERMISSIONS_REQUEST_APPROVE } from '../../../app/components/Approvals/InstallSnapApproval/components/InstallSnapPermissionsRequest/InstallSnapPermissionsRequest.constants';
 import { SNAP_INSTALL_OK } from '../../../app/components/Approvals/InstallSnapApproval/InstallSnapApproval.constants';
-import TestHelpers from '../../helpers';
 import Assertions from '../../framework/Assertions';
 import { IndexableWebElement } from 'detox/detox';
 import Utilities from '../../framework/Utilities';
@@ -314,7 +313,7 @@ class TestSnaps {
       BrowserViewSelectorsIDs.BROWSER_WEBVIEW_ID,
       TestSnapInputSelectorWebIDS[locator],
     ) as Promise<IndexableWebElement>;
-    // New gestures currently don't support web elements
+    // Framework Gestures don't support web elements yet, so using legacy method
     await LegacyGestures.typeInWebElement(webElement, message);
   }
 
@@ -341,8 +340,8 @@ class TestSnaps {
         try {
           await this.tapButton('getWebSocketState');
 
-          // eslint-disable-next-line no-restricted-syntax
-          await TestHelpers.delay(250);
+          // Brief wait for result to populate after button tap
+          await new Promise((resolve) => setTimeout(resolve, 250));
 
           const text = await resultElement.getText();
 
