@@ -11,6 +11,7 @@ const TIMEOUT = 15000;
 class Assertions {
   /**
    * Check if an element with the specified ID is visible.
+   * @deprecated Use Assertions.expectElementToBeVisible() from e2e/framework instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement | Detox.IndexableSystemElement | Detox.NativeElement>} element - The element to check.
    * @param timeout
    */
@@ -26,6 +27,7 @@ class Assertions {
 
   /**
    * Check if an element with the specified web selector exists.
+   * @deprecated Use Assertions.expectElementToBeVisible() from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement | Detox.IndexableSystemElement | Detox.NativeElement>} element - The element to check.
    */
   static async webViewElementExists(element) {
@@ -35,6 +37,7 @@ class Assertions {
 
   /**
    * Check if an element with the specified ID is not visible.
+   * @deprecated Use Assertions.expectElementToNotBeVisible() from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement | Detox.IndexableSystemElement | Detox.NativeElement>} element - The element to check.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
    */
@@ -46,6 +49,7 @@ class Assertions {
 
   /**
    * Check if an element with the specified ID does have the specified text.
+   * @deprecated Use Assertions.expectElementToHaveText() from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement | Detox.IndexableSystemElement | Detox.NativeElement>} element - The element to check.
    * @param {string} text - The text content to check.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
@@ -60,6 +64,7 @@ class Assertions {
 
   /**
    * Check if an element with the specified ID does have the specified label.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check.
    * @param {string} label - The label content to check.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
@@ -72,6 +77,7 @@ class Assertions {
 
   /**
    * Check if text is visible.
+   * @deprecated Use Assertions.expectToBeVisible(Matchers.getElementByText()) from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} text - The text to check if displayed.
    * @param {number} [index=0] - Index of the element if multiple elements match.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
@@ -83,6 +89,7 @@ class Assertions {
 
   /**
    * Check if text is not visible.
+   * @deprecated Use Assertions.expectToNotBeVisible(Matchers.getElementByText()) from e2e/framework instead for better error handling and retry mechanisms
    * @param {string} text - The text to check if not displayed.
    * @param {number} [index=0] - Index of the element if multiple elements match.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
@@ -94,6 +101,7 @@ class Assertions {
 
   /**
    * Check if an element with the specified ID does not have the specified text.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check.
    * @param {string} text - The text content to check.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
@@ -108,6 +116,7 @@ class Assertions {
 
   /**
    * Check if an element with the specified ID does not have the specified label.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check.
    * @param {string} label - The label content to check.
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
@@ -126,6 +135,7 @@ class Assertions {
 
   /**
    * Check if the toggle with the specified ID is in the "on" state.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The ID of the toggle element.
    */
   static async checkIfToggleIsOn(element) {
@@ -134,6 +144,7 @@ class Assertions {
 
   /**
    * Check if the toggle with the specified ID is in the "off" state.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The toggle element.
    */
   static async checkIfToggleIsOff(element) {
@@ -143,6 +154,7 @@ class Assertions {
   /**
    * Check if two text values match exactly.
    * Automatically normalizes non-breaking spaces and other whitespace characters.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {string} actualText - The actual text value to check.
    * @param {string} expectedText - The expected text value to match against.
    */
@@ -178,6 +190,7 @@ class Assertions {
   /**
    * Check if two objects match exactly.
    * Note: This assertion does not test UI elements. It is intended for testing values such as events from the mock server or other non-UI data.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Object} actualObject - The actual object to check.
    * @param {Object} expectedObject - The expected object to match against.
    */
@@ -204,6 +217,7 @@ class Assertions {
   /**
    * Check if an array has the expected length.
    * Note: This assertion does not test UI elements. It is intended for testing values such as events from the mock server or other non-UI data.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Array} array - The array to check.
    * @param {number} expectedLength - The expected length of the array.
    */
@@ -231,6 +245,7 @@ class Assertions {
    * Check if a value is defined (not null, not undefined, not an empty string).
    * Also evaluates a Boolean value.
    * Note: This assertion does not test UI elements. It is intended for testing values such as events from the mock server or other non-UI data.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {*} value - The value to check.
    */
   static async checkIfValueIsDefined(value) {
@@ -247,6 +262,7 @@ class Assertions {
   /**
    * Checks if the actual object contains all key/value pairs from the partial object.
    * Throws an error if the assertion fails, listing all issues found.
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Object} actual - The object to check against
    * @param {Object} partial - The partial object with expected key/value pairs
    * @param {boolean} deep - Whether to perform deep comparison for nested objects (default: true)
@@ -309,6 +325,7 @@ class Assertions {
 
   /**
    * Checks if the actual object contains all keys from the expected array
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Object} actual - The object to check against
    * @param {Object} validations - Object with keys and their expected values
    */
@@ -359,6 +376,7 @@ class Assertions {
 
   /**
    * Check if element is enabled
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check
    * @return {Promise<boolean>} - Resolves to true if the element is enabled, false otherwise
    */
@@ -368,6 +386,7 @@ class Assertions {
 
   /**
    * Check if element is disabled
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check
    * @return {Promise<boolean>} - Resolves to true if the element is disabled, false otherwise
    */
@@ -377,6 +396,7 @@ class Assertions {
 
   /**
    * Check if label contains text
+   * @deprecated Use Assertions methods from e2e/framework/Assertions.ts instead for better error handling and retry mechanisms
    * @param {string} text - The text to check if the label contains
    * @param {number} [timeout=TIMEOUT] - Timeout in milliseconds.
    */

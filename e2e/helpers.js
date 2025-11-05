@@ -327,6 +327,9 @@ export default class TestHelpers {
     });
   }
 
+  /**
+   * @deprecated Use proper waiting with Assertions.expectElementToBeVisible() or similar framework methods instead of arbitrary delays
+   */
   static delay(ms) {
     return new Promise((resolve) => {
       setTimeout(() => {

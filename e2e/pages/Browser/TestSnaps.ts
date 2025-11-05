@@ -14,11 +14,9 @@ import Gestures from '../../framework/Gestures';
 import { SNAP_INSTALL_CONNECT } from '../../../app/components/Approvals/InstallSnapApproval/components/InstallSnapConnectionRequest/InstallSnapConnectionRequest.constants';
 import { SNAP_INSTALL_PERMISSIONS_REQUEST_APPROVE } from '../../../app/components/Approvals/InstallSnapApproval/components/InstallSnapPermissionsRequest/InstallSnapPermissionsRequest.constants';
 import { SNAP_INSTALL_OK } from '../../../app/components/Approvals/InstallSnapApproval/InstallSnapApproval.constants';
-import TestHelpers from '../../helpers';
 import Assertions from '../../framework/Assertions';
 import { IndexableWebElement } from 'detox/detox';
 import Utilities from '../../framework/Utilities';
-import LegacyGestures from '../../utils/Gestures';
 import { ConfirmationFooterSelectorIDs } from '../../selectors/Confirmation/ConfirmationView.selectors';
 import { waitForTestSnapsToLoad } from '../../viewHelper';
 import { RetryOptions } from '../../framework';
@@ -314,8 +312,18 @@ class TestSnaps {
       BrowserViewSelectorsIDs.BROWSER_WEBVIEW_ID,
       TestSnapInputSelectorWebIDS[locator],
     ) as Promise<IndexableWebElement>;
-    // New gestures currently don't support web elements
-    await LegacyGestures.typeInWebElement(webElement, message);
+
+    await (
+      await webElement
+    ).runScript(
+      (el: any, value: string) => {
+        el.focus();
+        el.value = value;
+        el._valueTracker?.setValue('');
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+      },
+      [message],
+    );
   }
 
   async approveSignRequest() {
@@ -341,8 +349,7 @@ class TestSnaps {
         try {
           await this.tapButton('getWebSocketState');
 
-          // eslint-disable-next-line no-restricted-syntax
-          await TestHelpers.delay(250);
+          await new Promise((resolve) => setTimeout(resolve, 250));
 
           const text = await resultElement.getText();
 
