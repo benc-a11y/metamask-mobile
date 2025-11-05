@@ -10,6 +10,7 @@ class Gestures {
    * Helper function to add delay before performing an action.
    * Useful when elements are visible but not fully interactive yet.
    *
+   * @deprecated Use proper waiting with element visibility checks from e2e/framework/Gestures.ts instead
    * @param {number} delayMs - Delay in milliseconds
    * @returns {Promise<void>}
    */
@@ -22,6 +23,7 @@ class Gestures {
   /**
    * Tap an element and long press.
    *
+   * @deprecated Use longPress() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to tap
    * @param {number} timeout - Timeout for waiting (default: 2000ms)
    */
@@ -32,6 +34,7 @@ class Gestures {
   /**
    * Tap an element at a specific point.
    *
+   * @deprecated Use tapAtPoint() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to tap
    * @param {Object} point - Coordinates { x, y } where the element will be tapped
    */
@@ -42,6 +45,7 @@ class Gestures {
   /**
    * Wait for an element to be visible and then tap it.
    *
+   * @deprecated Use tap() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to tap
 
    */
@@ -52,6 +56,7 @@ class Gestures {
   /**
    * Tap an element with text partial text matching before tapping it
    *
+   * @deprecated Use tap() with Matchers.getElementByText() from e2e/framework instead for better error handling
    * @param {string} textPattern - Regular expression pattern to match the text
    */
   static async tapTextBeginingWith(textPattern) {
@@ -61,6 +66,7 @@ class Gestures {
   /**
    * Wait for an element to be visible and then tap it.
    *
+   * @deprecated Use waitAndTap() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement | Detox.SystemElement>} elementToTap - The element to tap
    * @param {Object} [options={}] - Configuration options
    * @param {number} [options.timeout=15000] - Timeout for waiting in milliseconds
@@ -89,6 +95,7 @@ class Gestures {
   /**
    * Wait for an element at a specific index to be visible and then tap it.
    *
+   * @deprecated Use tapAtIndex() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to tap
    * @param {number} index - Index of the element to tap
    * @param {number} timeout - Timeout for waiting (default: 15000ms)
@@ -102,6 +109,7 @@ class Gestures {
   /**
    * Wait for an element to be visible and then tap it.
    *
+   * @deprecated Use tap() with web elements from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableWebElement>} element - The element to tap
    * @param {Object} options - Options for the tap operation
    * @param {number} [options.timeout=15000] - Timeout for waiting (default: 15000ms)
@@ -130,6 +138,7 @@ class Gestures {
 
   /**
    * Type text into a web element within a webview using JavaScript injection.
+   * @deprecated Use inline runScript approach or typeText() from e2e/framework/Gestures.ts for native elements
    * @param {Promise<Detox.IndexableWebElement>} element - The web element to type into.
    * @param {string} text - The text to type.
    */
@@ -154,6 +163,7 @@ class Gestures {
   /**
    * Double tap an element by text.
    *
+   * @deprecated Use dblTap() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to double tap
    */
   static async doubleTap(element) {
@@ -163,6 +173,7 @@ class Gestures {
   /**
    * Clear the text field of an element identified by ID.
    *
+   * @deprecated Use typeText() with clearFirst option from e2e/framework/Gestures.ts instead
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to clear
    * @param {number} timeout - Timeout for waiting (default: 8000ms)
 
@@ -178,6 +189,7 @@ class Gestures {
   /**
    * Type text into an element and hide the keyboard.
    *
+   * @deprecated Use typeText() with hideKeyboard option from e2e/framework/Gestures.ts instead
    * @param {Promise<Detox.IndexableNativeElement | Detox.NativeElement | Detox.IndexableSystemElement>} element - The element to type into
    * @param {string} text - Text to be typed into the element
    */
@@ -190,6 +202,7 @@ class Gestures {
   /**
    * Type text into an element without hiding the keyboard.
    *
+   * @deprecated Use typeText() with hideKeyboard: false option from e2e/framework/Gestures.ts instead
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to type into
    * @param {string} text - Text to be typed into the element
    */
@@ -200,6 +213,7 @@ class Gestures {
   /**
    * Replace the text in the field of an element identified by ID.
    *
+   * @deprecated Use replaceText() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to replace the text in
    * @param {string} text - Text to replace the existing text in the element
    */
@@ -214,6 +228,7 @@ class Gestures {
   /**
    * Swipe on an element identified by ID.
    *
+   * @deprecated Use swipe() from e2e/framework/Gestures.ts instead for better error handling and retry mechanisms
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to swipe on
    * @param {Detox.Direction} direction - Direction of the swipe - left | right | top | bottom | up | down
    * @param {Detox.Speed} [speed] - Speed of the swipe (fast, slow)
@@ -252,6 +267,7 @@ class Gestures {
 
   /**
    * Scrolls the web element until its top is at the top of the viewport.
+   * @deprecated Use scrollToWebViewPort() from e2e/framework/Gestures.ts instead
    * @param {Promise<Element>} element - The element to scroll to the viewport.
    */
   static async scrollToWebViewPort(element) {

@@ -10,6 +10,7 @@ export default class Utilities {
    * for use in a regex pattern, designed to match any one of the provided strings exactly.
    * The resulting string is suitable for inclusion in a larger regex pattern.
    *
+   * @deprecated Use Utilities methods from e2e/framework instead
    * @param {string[]} regexstrings - An array of strings to be formatted for exact matching in a regex pattern.
    * @returns {string} A string formatted for exact matching within a regex pattern,
    *                    encapsulating the input strings in a way that they can be matched as literals.
@@ -27,6 +28,7 @@ export default class Utilities {
    * suitable for matching any one of the blacklisted URLs exactly. The `blacklistURLs` should be defined
    * within the class or accessible in the class context.
    *
+   * @deprecated Use Utilities methods from e2e/framework instead
    * @returns {string} A regex pattern string formatted for exact matching of blacklisted URLs.
    * @example
    */
@@ -34,6 +36,9 @@ export default class Utilities {
     return this.formatForExactMatchGroup(blacklistURLs);
   }
 
+  /**
+   * @deprecated Use Utilities.waitForElementToBeEnabled() from e2e/framework instead for better retry handling
+   */
   static async waitForElementToBeEnabled(
     element,
     timeout = 3500,
@@ -56,6 +61,7 @@ export default class Utilities {
   /**
    * Waits for an element to become stable (not moving) by checking its position multiple times.
    *
+   * @deprecated Use Utilities.waitForElementToStopMoving() from e2e/framework instead for better retry handling
    * @param {Promise<Detox.IndexableNativeElement>} element - The element to check for stability
    * @param {Object} [options={}] - Configuration options
    * @param {number} [options.timeout=5000] - Maximum time to wait for stability (ms)
@@ -118,6 +124,7 @@ export default class Utilities {
    *
    * Note: Copied directly from the extension implementation
    *
+   * @deprecated Use Utilities.waitUntil() from e2e/framework instead for better retry handling
    * @param {() => Promise<boolean>} condition - The condition to wait for. This function must return a boolean indicating whether the condition is met.
    * @param {object} options - Options for the wait.
    * @param {number} options.timeout - The maximum amount of time (in milliseconds) to wait for the condition to be met.

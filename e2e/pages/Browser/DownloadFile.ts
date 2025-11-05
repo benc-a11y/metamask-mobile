@@ -1,14 +1,19 @@
 import Matchers from '../../framework/Matchers.ts';
-import TestHelpers from '../../helpers';
+import Assertions from '../../framework/Assertions';
 import { waitFor } from 'detox';
 
 class DownloadFile {
   async verifyTapjackingAndClickDownloadButton(): Promise<void> {
-    await TestHelpers.delay(1000); // TODO replace with a check that button is disabled and after 500ms is enabled
     const downloadButtonInDialog =
       device.getPlatform() === 'android'
         ? Matchers.getElementByText('Download')
         : Matchers.getElementByLabel('Download');
+
+    await Assertions.expectElementToBeVisible(downloadButtonInDialog, {
+      timeout: 2000,
+      description:
+        'Download button should be visible and enabled after tapjacking protection',
+    });
     await (await downloadButtonInDialog).tap();
   }
 

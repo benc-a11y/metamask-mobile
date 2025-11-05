@@ -86,6 +86,15 @@ module.exports = {
     {
       files: ['**/e2e/pages/**/*.{js,ts}'],
       rules: {
+        'no-restricted-syntax': [
+          'error',
+          {
+            selector:
+              "CallExpression[callee.object.name='TestHelpers'][callee.property.name='delay']",
+            message:
+              'TestHelpers.delay() is not allowed in page objects. Use proper waiting with Assertions.expectElementToBeVisible() or similar framework methods instead.',
+          },
+        ],
         'no-restricted-imports': [
           'error',
           {
