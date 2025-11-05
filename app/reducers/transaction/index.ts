@@ -1,7 +1,44 @@
 import { REHYDRATE } from 'redux-persist';
+import { AnyAction } from 'redux';
 import { getTxData, getTxMeta } from '../../util/transaction-reducer-helpers';
 
-const initialState = {
+export interface TransactionState {
+  ensRecipient?: string;
+  assetType?: string;
+  selectedAsset: {
+    tokenId?: string;
+    isETH?: boolean;
+    symbol?: string;
+    [key: string]: unknown;
+  };
+  transaction: {
+    data?: string;
+    from?: string;
+    gas?: string;
+    gasPrice?: string;
+    to?: string;
+    value?: string;
+    maxFeePerGas?: string;
+    maxPriorityFeePerGas?: string;
+  };
+  warningGasPriceHigh?: string;
+  transactionTo?: string;
+  transactionToName?: string;
+  transactionFromName?: string;
+  transactionValue?: string;
+  symbol?: string;
+  paymentRequest?: unknown;
+  readableValue?: string;
+  id?: string;
+  type?: string;
+  proposedNonce?: string;
+  nonce?: string;
+  securityAlertResponses: Record<string, unknown>;
+  useMax?: boolean;
+  maxValueMode?: boolean;
+}
+
+const initialState: TransactionState = {
   ensRecipient: undefined,
   assetType: undefined,
   selectedAsset: {},
@@ -32,7 +69,7 @@ const initialState = {
   useMax: false,
 };
 
-const getAssetType = (selectedAsset) => {
+const getAssetType = (selectedAsset: { tokenId?: string; isETH?: boolean }) => {
   let assetType;
   if (selectedAsset) {
     if (selectedAsset.tokenId) {
@@ -46,7 +83,10 @@ const getAssetType = (selectedAsset) => {
   return assetType;
 };
 
-const transactionReducer = (state = initialState, action) => {
+const transactionReducer = (
+  state: TransactionState = initialState,
+  action: AnyAction = { type: '' },
+): TransactionState => {
   switch (action.type) {
     case REHYDRATE:
       return {
@@ -167,4 +207,6 @@ const transactionReducer = (state = initialState, action) => {
 };
 export default transactionReducer;
 
-export const selectTransactionState = (state) => state.transaction;
+export const selectTransactionState = (state: {
+  transaction: TransactionState;
+}) => state.transaction;
