@@ -1,8 +1,22 @@
+import { AnyAction } from 'redux';
 import { BrowserActionTypes } from '../../actions/browser';
 import AppConstants from '../../core/AppConstants';
 import { appendURLParams } from '../../util/browser';
 
-const initialState = {
+export interface BrowserState {
+  history: { url: string; name: string }[];
+  whitelist: string[];
+  tabs: {
+    url: string;
+    id: number;
+    linkType?: string;
+  }[];
+  favicons: { origin: string; url: string }[];
+  activeTab: number | null;
+  visitedDappsByHostname: Record<string, boolean>;
+}
+
+const initialState: BrowserState = {
   history: [],
   whitelist: [],
   tabs: [],
@@ -11,7 +25,11 @@ const initialState = {
   // Keep track of viewed Dapps, which is used for MetaMetricsEvents.DAPP_VIEWED event
   visitedDappsByHostname: {},
 };
-const browserReducer = (state = initialState, action) => {
+
+const browserReducer = (
+  state: BrowserState = initialState,
+  action: AnyAction = { type: '' },
+): BrowserState => {
   switch (action.type) {
     case BrowserActionTypes.ADD_TO_VIEWED_DAPP: {
       const { hostname } = action;

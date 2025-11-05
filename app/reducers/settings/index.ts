@@ -1,6 +1,21 @@
+import { AnyAction } from 'redux';
 import AppConstants from '../../core/AppConstants';
 
-const initialState = {
+export interface SettingsState {
+  searchEngine: string;
+  primaryCurrency: string;
+  lockTime: number;
+  useBlockieIcon: boolean;
+  hideZeroBalanceTokens: boolean;
+  basicFunctionalityEnabled: boolean;
+  deepLinkModalDisabled: boolean;
+  showHexData?: boolean;
+  showCustomNonce?: boolean;
+  showFiatOnTestnets?: boolean;
+  deviceNotificationEnabled?: boolean;
+}
+
+const initialState: SettingsState = {
   searchEngine: AppConstants.DEFAULT_SEARCH_ENGINE,
   primaryCurrency: 'ETH',
   lockTime: -1, // Disabled by default
@@ -10,7 +25,10 @@ const initialState = {
   deepLinkModalDisabled: false,
 };
 
-const settingsReducer = (state = initialState, action) => {
+const settingsReducer = (
+  state: SettingsState = initialState,
+  action: AnyAction = { type: '' },
+): SettingsState => {
   switch (action.type) {
     case 'SET_SEARCH_ENGINE':
       return {

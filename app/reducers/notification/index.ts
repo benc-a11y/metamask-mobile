@@ -1,8 +1,34 @@
+import { AnyAction } from 'redux';
 import { createSelector } from 'reselect';
 import { NotificationTypes } from '../../util/notifications';
 const { TRANSACTION, SIMPLE } = NotificationTypes;
 
-export const initialState = {
+interface BaseNotification {
+  id: string;
+  isVisible: boolean;
+  autodismiss: number;
+}
+
+interface TransactionNotification extends BaseNotification {
+  type: 'transaction';
+  transaction: unknown;
+  status: string;
+}
+
+interface SimpleNotification extends BaseNotification {
+  type: 'simple';
+  title: string;
+  description: string;
+  status: string;
+}
+
+export type NotificationItem = TransactionNotification | SimpleNotification;
+
+export interface NotificationState {
+  notifications: NotificationItem[];
+}
+
+export const initialState: NotificationState = {
   notifications: [],
 };
 
@@ -21,21 +47,24 @@ export const ACTIONS = {
   UPDATE_NOTIFICATION_STATUS: 'UPDATE_NOTIFICATION_STATUS',
 };
 
-const enqueue = (notifications, notification) => [
-  ...notifications,
-  notification,
-];
-const dequeue = (notifications) => notifications.slice(1);
+const enqueue = (
+  notifications: NotificationItem[],
+  notification: NotificationItem,
+) => [...notifications, notification];
+const dequeue = (notifications: NotificationItem[]) => notifications.slice(1);
 
 export const currentNotificationSelector = createSelector(
   (
     /** @type {import('..').RootState} */
-    state,
+    state: { notifications?: NotificationState },
   ) => state?.notifications,
-  (notifications) => notifications[0] || {},
+  (notifications) => notifications?.notifications[0] || {},
 );
 
-const notificationReducer = (state = initialState, action) => {
+const notificationReducer = (
+  state: NotificationState = initialState,
+  action: AnyAction = { type: '' },
+): NotificationState => {
   const { notifications } = state;
   switch (action.type) {
     // make current notification isVisible props false
