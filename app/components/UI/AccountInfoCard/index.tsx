@@ -1,7 +1,12 @@
 import isUrl from 'is-url';
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { strings } from '../../../../locales/i18n';
 import Text, {
@@ -33,8 +38,66 @@ import ApproveTransactionHeader from '../../Views/confirmations/legacy/component
 import Identicon from '../Identicon';
 import { selectInternalAccounts } from '../../../selectors/accountsController';
 import { selectSignatureRequests } from '../../../selectors/signatureController';
+import { RootState } from '../../../reducers';
+import { Theme } from '../../../util/theme/models';
+import { InternalAccount } from '@metamask/keyring-internal-api';
+import { SignatureRequest } from '@metamask/signature-controller';
 
-const createStyles = (colors) =>
+interface Styles {
+  accountInformation: ViewStyle;
+  identicon: ImageStyle;
+  accountInfoRow: ViewStyle;
+  accountNameAndAddress: ViewStyle;
+  accountName: TextStyle;
+  accountNameSmall: TextStyle;
+  accountAddress: TextStyle;
+  accountAddressSmall: TextStyle;
+  balanceText: TextStyle;
+  balanceTextSmall: TextStyle;
+  tag: ViewStyle;
+  tagText: TextStyle;
+}
+
+interface Colors {
+  border: {
+    default: string;
+  };
+  text: {
+    default: string;
+  };
+}
+
+interface AccountBalance {
+  balance: string;
+}
+
+interface Accounts {
+  [address: string]: AccountBalance;
+}
+
+interface Transaction {
+  chainId?: string;
+}
+
+interface SignatureRequests {
+  [id: string]: SignatureRequest;
+}
+
+interface AccountInfoCardProps {
+  fromAddress: string;
+  accounts?: Accounts;
+  internalAccounts?: InternalAccount[];
+  conversionRate?: number;
+  currentCurrency?: string;
+  operation?: string;
+  showFiatBalance?: boolean;
+  ticker?: string;
+  transaction?: Transaction;
+  origin?: string;
+  signatureRequests?: SignatureRequests;
+}
+
+const createStyles = (colors: Colors): Styles =>
   StyleSheet.create({
     accountInformation: {
       flexDirection: 'row',
@@ -101,46 +164,13 @@ const createStyles = (colors) =>
     },
   });
 
-class AccountInfoCard extends PureComponent {
-  static propTypes = {
-    /**
-     * A string that represents the from address.
-     */
-    fromAddress: PropTypes.string.isRequired,
-    /**
-     * Map of accounts to information objects including balances
-     */
-    accounts: PropTypes.object,
-    /**
-     * List of accounts from the AccountsController
-     */
-    internalAccounts: PropTypes.array,
-    /**
-     * A number that specifies the ETH/USD conversion rate
-     */
-    conversionRate: PropTypes.number,
-    /**
-     * The selected currency
-     */
-    currentCurrency: PropTypes.string,
-    /**
-     * Declares the operation being performed i.e. 'signing'
-     */
-    operation: PropTypes.string,
-    /**
-     * Clarify should show fiat balance
-     */
-    showFiatBalance: PropTypes.bool,
-    /**
-     * Current selected ticker
-     */
-    ticker: PropTypes.string,
-    transaction: PropTypes.object,
-    origin: PropTypes.string,
-    signatureRequests: PropTypes.object,
-  };
+/**
+ * Component that displays account information including address, balance, and optional label tag
+ */
+class AccountInfoCard extends PureComponent<AccountInfoCardProps> {
+  declare context: Theme;
 
-  render() {
+  render(): React.ReactNode {
     const {
       accounts,
       internalAccounts,
@@ -156,34 +186,41 @@ class AccountInfoCard extends PureComponent {
     } = this.props;
 
     const signatureRequest = Object.values(signatureRequests || {})?.[0];
-    const fromAddress = safeToChecksumAddress(rawFromAddress);
+    const fromAddress = safeToChecksumAddress(rawFromAddress) ?? '';
     const accountLabelTag = getLabelTextByAddress(fromAddress);
     const colors = this.context.colors || mockTheme.colors;
-    const styles = createStyles(colors);
+    const styles = createStyles(colors as Colors);
     const weiBalance = accounts?.[fromAddress]?.balance
       ? hexToBN(accounts[fromAddress].balance)
       : 0;
     const balance = `${renderFromWei(weiBalance)} ${getTicker(ticker)}`;
-    const accountLabel = renderAccountName(fromAddress, internalAccounts);
+    const accountLabel = renderAccountName(fromAddress, internalAccounts ?? []);
     const address = renderShortAddress(fromAddress);
     const dollarBalance = showFiatBalance
-      ? weiToFiat(weiBalance, conversionRate, currentCurrency, 2)?.toUpperCase()
+      ? weiToFiat(
+          weiBalance,
+          conversionRate ?? 0,
+          currentCurrency ?? '',
+          2,
+        )?.toUpperCase()
       : undefined;
 
     const sdkConnections = SDKConnect.getInstance().getConnections();
 
     const currentConnection = sdkConnections[origin ?? ''];
 
-    const isOriginUrl = isUrl(origin);
+    const isOriginUrl = isUrl(origin ?? '');
 
     const originatorInfo = currentConnection?.originatorInfo;
 
     const sdkDappMetadata = {
-      url: isOriginUrl ? origin : originatorInfo?.url ?? strings('sdk.unknown'),
-      icon: originatorInfo?.icon,
+      url: isOriginUrl
+        ? origin ?? ''
+        : originatorInfo?.url ?? strings('sdk.unknown'),
+      icon: originatorInfo?.icon ?? '',
     };
     const actualOriginUrl = isOriginUrl
-      ? origin
+      ? origin ?? ''
       : originatorInfo?.url ?? strings('sdk.unknown');
 
     return operation === 'signing' && transaction !== undefined ? (
@@ -193,6 +230,8 @@ class AccountInfoCard extends PureComponent {
         url={actualOriginUrl}
         from={rawFromAddress}
         sdkDappMetadata={sdkDappMetadata}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        asset={undefined as any}
       />
     ) : (
       <View style={styles.accountInformation}>
@@ -247,15 +286,26 @@ class AccountInfoCard extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  accounts: selectAccounts(state),
+const mapStateToProps = (
+  state: RootState,
+): {
+  accounts: Accounts | undefined;
+  internalAccounts: InternalAccount[];
+  conversionRate: number | undefined;
+  currentCurrency: string | undefined;
+  ticker: string | undefined;
+  transaction: Transaction | undefined;
+  activeTabUrl: string | undefined;
+  signatureRequests: SignatureRequests;
+} => ({
+  accounts: selectAccounts(state) as Accounts | undefined,
   internalAccounts: selectInternalAccounts(state),
-  conversionRate: selectConversionRate(state),
+  conversionRate: selectConversionRate(state) ?? undefined,
   currentCurrency: selectCurrentCurrency(state),
   ticker: selectEvmTicker(state),
-  transaction: getNormalizedTxState(state),
+  transaction: getNormalizedTxState(state) as Transaction | undefined,
   activeTabUrl: getActiveTabUrl(state),
-  signatureRequests: selectSignatureRequests(state),
+  signatureRequests: selectSignatureRequests(state) as SignatureRequests,
 });
 
 AccountInfoCard.contextType = ThemeContext;
