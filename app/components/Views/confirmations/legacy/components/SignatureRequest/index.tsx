@@ -1,6 +1,12 @@
-import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { SigningBottomSheetSelectorsIDs } from '../../../../../../../e2e/selectors/Browser/SigningBottomSheet.selectors';
@@ -21,8 +27,55 @@ import withQRHardwareAwareness from '../../../../../UI/QRHardware/withQRHardware
 import WebsiteIcon from '../../../../../UI/WebsiteIcon';
 import BlockaidBanner from '../BlockaidBanner/BlockaidBanner';
 import { ResultType } from '../BlockaidBanner/BlockaidBanner.types';
+import { SignatureRequestProps } from './types';
+import { RootState } from '../../../../../../reducers';
+import { Theme } from '../../../../../../util/theme/models';
 
-const getCleanUrl = (url) => {
+interface Styles {
+  root: ViewStyle;
+  expandedHeight2: ViewStyle;
+  expandedHeight1: ViewStyle;
+  signingInformation: ViewStyle;
+  domainLogo: ViewStyle;
+  messageColumn: ViewStyle;
+  warningLink: TextStyle;
+  signText: TextStyle;
+  messageLabelText: TextStyle;
+  readMore: TextStyle;
+  warningWrapper: ViewStyle;
+  actionViewChild: ViewStyle;
+  accountInfoCardWrapper: ViewStyle;
+  children: ViewStyle;
+  arrowIconWrapper: ViewStyle;
+  arrowIcon: TextStyle;
+  blockaidBannerContainer: ViewStyle;
+}
+
+interface Colors {
+  background: {
+    default: string;
+  };
+  border: {
+    default: string;
+  };
+  primary: {
+    default: string;
+  };
+  text: {
+    default: string;
+  };
+  icon: {
+    muted: string;
+  };
+}
+
+/**
+ * Extracts the origin from a URL string.
+ *
+ * @param url - The URL to extract the origin from
+ * @returns The origin of the URL or an empty string if invalid
+ */
+const getCleanUrl = (url: string): string => {
   try {
     const urlObject = new URL(url);
 
@@ -32,7 +85,7 @@ const getCleanUrl = (url) => {
   }
 };
 
-const createStyles = (colors) =>
+const createStyles = (colors: Colors): Styles =>
   StyleSheet.create({
     root: {
       backgroundColor: colors.background.default,
@@ -122,61 +175,29 @@ const createStyles = (colors) =>
     },
   });
 
+interface SignatureRequestState {
+  // Add state properties if needed in the future
+}
+
+interface TrackingParams {
+  [key: string]: string | undefined;
+  network?: string;
+  functionType: string;
+}
+
 /**
  * PureComponent that renders scrollable content inside signature request user interface
  */
-class SignatureRequest extends PureComponent {
-  static propTypes = {
-    /**
-     * Callback triggered when this message signature is rejected
-     */
-    onReject: PropTypes.func,
-    /**
-     * Callback triggered when this message signature is approved
-     */
-    onConfirm: PropTypes.func,
-    /**
-     * Content to display above the action buttons
-     */
-    children: PropTypes.node,
-    /**
-     * Object containing current page title and url
-     */
-    currentPageInformation: PropTypes.object,
-    /**
-     * String representing signature type
-     */
-    type: PropTypes.string,
-    /**
-     * String representing the associated network
-     */
-    networkType: PropTypes.string,
-    /**
-     * Whether it should render the expand arrow icon
-     */
-    truncateMessage: PropTypes.bool,
-    /**
-     * Expands the message box on press.
-     */
-    toggleExpandedMessage: PropTypes.func,
-    /**
-     * Active address of account that triggered signing.
-     */
-    fromAddress: PropTypes.string,
-    isSigningQRObject: PropTypes.bool,
-    QRState: PropTypes.object,
-    testID: PropTypes.string,
-    securityAlertResponse: PropTypes.object,
-    /**
-     * Metrics injected by withMetricsAwareness HOC
-     */
-    metrics: PropTypes.object,
-  };
+class SignatureRequest extends PureComponent<
+  SignatureRequestProps,
+  SignatureRequestState
+> {
+  declare context: Theme;
 
   /**
    * Calls trackCancelSignature and onReject callback
    */
-  onReject = () => {
+  onReject = (): void => {
     this.props.onReject();
     this.props.metrics.trackEvent(
       this.props.metrics
@@ -189,7 +210,7 @@ class SignatureRequest extends PureComponent {
   /**
    * Calls trackConfirmSignature and onConfirm callback
    */
-  onConfirm = () => {
+  onConfirm = (): void => {
     this.props.onConfirm();
     this.props.metrics.trackEvent(
       this.props.metrics
@@ -202,9 +223,9 @@ class SignatureRequest extends PureComponent {
   /**
    * Returns corresponding tracking params to send
    *
-   * @return {object} - Object containing network and functionType
+   * @returns Object containing network and functionType
    */
-  getTrackingParams = () => {
+  getTrackingParams = (): TrackingParams => {
     const { type, networkType } = this.props;
     return {
       network: networkType,
@@ -212,12 +233,12 @@ class SignatureRequest extends PureComponent {
     };
   };
 
-  getStyles = () => {
+  getStyles = (): Styles => {
     const colors = this.context.colors || mockTheme.colors;
-    return createStyles(colors);
+    return createStyles(colors as Colors);
   };
 
-  componentDidMount = () => {
+  componentDidMount = (): void => {
     const { currentPageInformation, type, fromAddress } = this.props;
 
     this.props.metrics.trackEvent(
@@ -236,7 +257,7 @@ class SignatureRequest extends PureComponent {
     );
   };
 
-  renderActionViewChildren = () => {
+  renderActionViewChildren = (): React.ReactNode => {
     const {
       children,
       currentPageInformation,
@@ -262,7 +283,7 @@ class SignatureRequest extends PureComponent {
         </View>
         <TouchableOpacity
           style={styles.children}
-          onPress={truncateMessage ? toggleExpandedMessage : null}
+          onPress={truncateMessage ? toggleExpandedMessage : undefined}
         >
           <WebsiteIcon
             style={styles.domainLogo}
@@ -287,7 +308,7 @@ class SignatureRequest extends PureComponent {
     );
   };
 
-  renderArrowIcon = () => {
+  renderArrowIcon = (): React.ReactNode => {
     const styles = this.getStyles();
 
     return (
@@ -297,7 +318,7 @@ class SignatureRequest extends PureComponent {
     );
   };
 
-  onContactUsClicked = () => {
+  onContactUsClicked = (): void => {
     const { fromAddress, type } = this.props;
     const analyticsParams = {
       ...getAnalyticsParams(
@@ -316,9 +337,9 @@ class SignatureRequest extends PureComponent {
     );
   };
 
-  renderSignatureRequest() {
+  renderSignatureRequest(): React.ReactNode {
     const { securityAlertResponse, fromAddress } = this.props;
-    let expandedHeight;
+    let expandedHeight: ViewStyle | undefined;
     const styles = this.getStyles();
     const isLedgerAccount = isHardwareAccount(fromAddress, [
       ExtendedKeyringTypes.ledger,
@@ -370,9 +391,13 @@ class SignatureRequest extends PureComponent {
     );
   }
 
-  renderQRDetails() {
+  renderQRDetails(): React.ReactNode {
     const { QRState, fromAddress } = this.props;
     const styles = this.getStyles();
+
+    if (!QRState) {
+      return null;
+    }
 
     return (
       <View style={[styles.root]}>
@@ -387,7 +412,7 @@ class SignatureRequest extends PureComponent {
     );
   }
 
-  render() {
+  render(): React.ReactNode {
     const { isSigningQRObject } = this.props;
     return isSigningQRObject
       ? this.renderQRDetails()
@@ -395,13 +420,18 @@ class SignatureRequest extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (
+  state: RootState,
+): { selectedAddress: string | undefined; securityAlertResponse: unknown } => ({
   selectedAddress: selectSelectedInternalAccountFormattedAddress(state),
   securityAlertResponse: state.signatureRequest.securityAlertResponse,
 });
 
 SignatureRequest.contextType = ThemeContext;
 
+// Using type assertion for HOC compatibility - the HOCs add props that TypeScript
+// cannot infer correctly when chaining multiple HOCs together
 export default connect(mapStateToProps)(
-  withQRHardwareAwareness(withMetricsAwareness(SignatureRequest)),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  withQRHardwareAwareness(withMetricsAwareness(SignatureRequest as any) as any),
 );
